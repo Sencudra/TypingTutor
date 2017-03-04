@@ -24,10 +24,7 @@ Window {
         target: engine
 
         //Signals, which come from class
-        onTextChanged: {
-          console.log("Qml works")
-          supertext.text = engine.startText
-        }
+
         onRoundStarted: {
           // Actions
             // Enabled/disabled
@@ -53,9 +50,6 @@ Window {
         onClearTextInput: {
             textInput.text = ""
         }
-        onWordChanged:{
-            supertext.text = engine.currentText
-        }
     }
         Rectangle{
             id: mainView
@@ -79,7 +73,7 @@ Window {
 
                 Text{
                     id: supertext
-                    text: textToWindow
+                    text: engine.currentText
                     textFormat: Text.AutoText
                     elide: Text.ElideRight
                     wrapMode: Text.WrapAnywhere
