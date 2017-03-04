@@ -1,34 +1,25 @@
 #include <programengine.h>
 
-
-
-const int dataRows = 1;
-QString textDataBase[dataRows] =
-{
- "ВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВ"
- };
-
-Textqueue* generateTextQueue(QString text);
-QString writeTextForQml(Textqueue *first);
-
-
-////////////////////////////////////////////
-
-//Textqueue Class methods
-
 // Constructor
 programEngine::programEngine(QObject *parent) : QObject(parent){
 
+    //Time
     pointerToTime = new Time();
     connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(Timer()));
+
+    //Text
+    pointerToText = new Text();
+    connect(this,SIGNAL(updateText()),pointerToText,SLOT(updateText()));
+    connect(this,SIGNAL(newText()),pointerToText,SLOT(newText()));
 
 }
 
 
 int programEngine::startRound(){
 
-    emit textChanged();
     emit roundStarted();
+    emit newText();
+    emit setNewText();
 
     pointerToTime->start_Timer();
     emit timeChanged();
@@ -70,16 +61,14 @@ bool programEngine::isRight(QString text)
     m_allSigns++;
     if (text == "") // true, while backspacing
         return true;
-    if (text == m_current_word->word){
-        m_current_word = updateWord(m_current_word);
+    if (text == pointerToText->getWord()){
+        emit updateText();
 
-        if (m_current_word == NULL)
+        if (pointerToText->getWord() == "\0")
         {
             stopRound();
             return true;
         }
-        emit wordChanged();
-
         m_rightSigns++;
 
         return true;
@@ -88,12 +77,12 @@ bool programEngine::isRight(QString text)
     {
         int textLength = text.length();
         int cursor;
-        QChar* pointerToText = text.data();
-        QChar* pointerToM_Word = m_current_word->word.data();
-        for (cursor = 0; cursor < textLength && *pointerToText == *pointerToM_Word; cursor++)
+        QChar* pointerToTextChar = text.data();
+        QChar* pointerToM_WordChar = pointerToText->getWord().data();
+        for (cursor = 0; cursor < textLength && *pointerToTextChar == *pointerToM_WordChar; cursor++)
         {
-            pointerToM_Word++;
-            pointerToText++;
+            pointerToM_WordChar++;
+            pointerToTextChar++;
         }
         if (cursor != textLength)
             return false;
@@ -105,43 +94,18 @@ bool programEngine::isRight(QString text)
 
 }
 
-QString programEngine::updateText()
-{
-    QString text = writeTextForQml(m_current_word);
-    emit clearTextInput();
-    return text;
-}
 
-Textqueue* programEngine::updateWord(Textqueue *word)
-{
-    if (word->next != NULL)
-    {
-        return m_current_word->next;
-    }
-    else
-        return NULL; // Конец текста
-}
+int programEngine::getSpeed(){
+//   float a = (m_round_time.elapsed())/1000.0;
 
-QString programEngine::getTextFromBase(){
-    int number = rand() % dataRows;
-    Textqueue* newTextQueue = generateTextQueue(textDataBase[number]);
-    m_current_word = newTextQueue;
-    QString newQText = writeTextForQml(newTextQueue);
-    return  newQText;
-}
-
-int programEngine::getSpeed()
-{
-    float a = (m_round_time.elapsed())/1000.0;
-
-    if( a != 0){
-        float t = m_rightSigns/a;
-        qDebug() << t;
-        a = int(t*60.0);
-        return a;
-    }
-    else
-        return 0;
+//    if( a != 0){
+//        float t = m_rightSigns/a;
+//        qDebug() << t;
+//        a = int(t*60.0);
+//        return a;
+//    }
+//    else
+//        return 0;
 
 }
 
@@ -151,62 +115,3 @@ int programEngine::getSpeed()
 
 
 
-Textqueue* generateTextQueue(QString text){
-
-    // Put text in queue
-    QChar* pointer = text.data();
-    QString buffer;
-
-    Textqueue* first = new Textqueue;
-    Textqueue* current = first;
-
-
-    first->word = "\0";
-
-    while(*pointer != 0)
-    {
-        buffer = "";
-
-        while((*pointer != ' ') && (*pointer != 0))
-        {
-            buffer += *pointer;
-            pointer++;
-        }
-        if (*pointer != 0)
-                buffer += *pointer;
-
-        while ((*pointer == ' ') && (*pointer != 0))
-            pointer++;
-
-
-        if (first->word == "\0")
-        {
-            first->word = buffer;
-            current = first;
-        }
-        else
-        {
-            Textqueue* newCell = new Textqueue;
-            current->next = newCell;
-            newCell->word = buffer;
-            current = newCell;
-
-
-        }
-    }
-    current->next = NULL;
-    return first;
-}
-
-QString writeTextForQml(Textqueue* first)
-{
-    QString buffer;
-    Textqueue* pointer = first;
-    while(pointer->next != NULL)
-    {
-        buffer += pointer->word;
-        pointer = pointer->next;
-    }
-    buffer += pointer->word;
-    return buffer;
-}

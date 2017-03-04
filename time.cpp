@@ -2,7 +2,7 @@
 
 
 
-Time::Time()
+Time::Time(QObject *parent) : QObject(parent)
 {
     m_timer = new QTimer();
     m_gui_time = QTime(0,0);

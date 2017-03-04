@@ -9,7 +9,8 @@ class Time : public QObject
 {
     Q_OBJECT
 public:
-    Time();
+
+    explicit Time(QObject *parent = 0);
     void start_Timer();
     void stop_Timer();
 
