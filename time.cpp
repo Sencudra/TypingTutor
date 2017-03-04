@@ -1,5 +1,7 @@
 #include "time.h"
 
+
+
 Time::Time()
 {
     m_timer = new QTimer();
@@ -39,7 +41,6 @@ void Time::stop_Timer()
 
     emit changedTime();
 
-    //qDebug() << m_secs << "Time";
 
 }
 

@@ -19,7 +19,7 @@ class programEngine : public QObject  // engine`s class
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString secsInfo MEMBER m_secs NOTIFY timeChanged)   // time management
+    Q_PROPERTY(QString secsInfo READ getTime NOTIFY timeChanged)   // time management
     Q_PROPERTY(QString startText READ getTextFromBase NOTIFY textChanged)   //first assigment of the text
     Q_PROPERTY(QString currentText READ updateText NOTIFY wordChanged)  // text update
     Q_PROPERTY(int speed READ getSpeed NOTIFY speedChanged) // speedChanged
@@ -40,11 +40,15 @@ private:
     QString updateText();
     int getSpeed();
 
+    QString getTime(){
+        return pointerToTime->getTime();
+    }
 
 public slots:
     // Time
-    void updateTime();
-    void changedTime();
+
+    void Timer();
+
 
 signals:
 
