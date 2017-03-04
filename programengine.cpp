@@ -20,15 +20,7 @@ QString writeTextForQml(Textqueue *first);
 programEngine::programEngine(QObject *parent) : QObject(parent){
 
     pointerToTime = new Time();
-    connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(changedTime()));
-
-    m_timer = new QTimer();
-    m_gui_time = QTime(0,0);
-
-    m_secs = m_gui_time.toString("mm:ss");
-    emit timeChanged();
-
-    connect(m_timer,SIGNAL(timeout()),this,SLOT(updateTime()));
+    connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(Timer()));
 
 }
 
@@ -39,16 +31,7 @@ int programEngine::startRound(){
     emit roundStarted();
 
     pointerToTime->start_Timer();
-
-    m_timer->start(1000);
-
-    //Time initialization
-    m_gui_time = QTime(0,0);
-    m_secs = m_gui_time.toString("mm:ss");
     emit timeChanged();
-
-    m_round_time = QTime(0,0);
-    m_round_time.start();
 
     m_rightSigns = 0;
     m_averageSpeed = 0;
@@ -62,14 +45,6 @@ void programEngine::stopRound()
 
     pointerToTime->stop_Timer();
     // Miliseconds counting
-    int a = m_round_time.elapsed();
-
-    m_gui_time = QTime(0,0);
-    m_gui_time = m_gui_time.addMSecs(a);
-
-    m_timer->stop();
-
-    m_secs = m_gui_time.toString("mm:ss.zzz");
 
     m_averageSpeed = getSpeed();
 
@@ -79,10 +54,8 @@ void programEngine::stopRound()
 
 }
 
-void programEngine::updateTime()
+void programEngine::Timer()
 {
-    m_gui_time = m_gui_time.addMSecs(1000);
-    m_secs = m_gui_time.toString("mm:ss");
 
     m_allSigns = 0; // Мгновеная скорость
 
