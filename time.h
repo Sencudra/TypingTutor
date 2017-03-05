@@ -14,6 +14,8 @@ public:
     void start_Timer();
     void stop_Timer();
 
+    int getTimeElapsed(){return m_timeElapsed;}
+
     QString getTime(){return m_secs;}
 
 
@@ -25,6 +27,7 @@ signals:
 
 
 private:
+    int m_timeElapsed;
 
     QString m_secs;    //Qml string
     QTimer* m_timer;   //Timer

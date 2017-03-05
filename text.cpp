@@ -2,15 +2,10 @@
 #include <QDebug>
 
 // Text liabrary
-const int dataRows = 6;
+const int dataRows = 1;
 QString textDataBase[dataRows] =
 {
-    "ВВВ6 ВВВ2",
-    "ВВВ5 ВВВ3",
-    "ВВВ4 ВВВ2",
-    "ВВВ3 ВВВ1",
-    "ВВВ2 ВВВ3",
-    "ВВВ1 ВВВ1",
+
 
  };
 
@@ -20,7 +15,7 @@ QString writeTextForQml(Textqueue *first);
 
 //Class stuff
 
-Text::Text(QObject *parent) : QObject(parent)
+Text::Text()
 {
 
 }
@@ -54,7 +49,6 @@ int Text::updateText()
 {
     updateWord();
     QString text = writeTextForQml(m_current_word);
-    //emit clearTextInput();
     m_textForQml = text;
     return 0;
 }

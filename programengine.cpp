@@ -57,11 +57,13 @@ void programEngine::Timer()
 
 bool programEngine::isRight(QString text)
 {
-    pointerToText->getWord();
+    pointerToSpeed->signPressed();
+
     if (text == "") // true, while backspacing
         return true;
     if (text == pointerToText->getWord()){
         pointerToText->updateText();
+        pointerToSpeed->rightWritten();
 
         // for qml file
         emit updateQmlText();
@@ -76,6 +78,8 @@ bool programEngine::isRight(QString text)
     }
     else
     {
+
+
         int textLength = text.length();
         int cursor;
         QChar* pointerToTextChar = text.data();
@@ -88,6 +92,7 @@ bool programEngine::isRight(QString text)
         if (cursor != textLength)
             return false;
         else{
+             pointerToSpeed->rightWritten();
             return true;
         }
     }
