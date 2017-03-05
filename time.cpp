@@ -46,6 +46,7 @@ void Time::stop_Timer()
 
 void Time::update_Timer()
 {
+    m_timeElapsed = m_round_time.elapsed();
     m_gui_time = m_gui_time.addMSecs(1000);
     m_secs = m_gui_time.toString("mm:ss");
 

@@ -9,29 +9,22 @@ struct Textqueue  // queue
     Textqueue* next;
 };
 
-class Text : public QObject
+class Text
 {
-    Q_OBJECT
+
 public:
-    explicit Text(QObject *parent = 0);
-
-
+    explicit Text();
 
     QString getText(){return m_textForQml;}
     QString getWord(){return m_wordForQml;}
 
+    int updateText();
+    void newText(){getTextFromBase();}
+
 private:
     int getTextFromBase();
     Textqueue* updateWord(Textqueue* word);
-    int updateWord();
-
-
-signals:
-
-public slots:  
-    int updateText();
-    int newText(){getTextFromBase();}
-
+    void updateWord();
 
 private:
     Textqueue* m_current_word;

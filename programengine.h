@@ -8,6 +8,7 @@
 
 #include "time.h"
 #include "text.h"
+#include "speed.h"
 
 
 class programEngine : public QObject  // engine`s class
@@ -15,9 +16,9 @@ class programEngine : public QObject  // engine`s class
     Q_OBJECT
 
     Q_PROPERTY(QString secsInfo READ getTime NOTIFY timeChanged)   // time management
-    Q_PROPERTY(QString currentText READ getText NOTIFY updateText)  // text update
-    Q_PROPERTY(QString currentText READ getText NOTIFY setNewText)
-    Q_PROPERTY(int speed READ getSpeed NOTIFY speedChanged) // speedChanged
+    Q_PROPERTY(QString currentText READ getText NOTIFY updateQmlText)  // text update
+    Q_PROPERTY(int average_speed READ getAverageSpeed NOTIFY speedChanged) // speedChanged
+    Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
 
 public:
     explicit programEngine(QObject *parent = 0);
@@ -28,7 +29,8 @@ public:
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
 
 private:
-    int getSpeed();
+    int getAverageSpeed(){return pointerToSpeed->getAverageSpeed();}
+    int getCurrentSpeed(){return pointerToSpeed->getCurrentSpeed();}
 
     //new
     QString getTime(){return pointerToTime->getTime();}
@@ -39,18 +41,18 @@ public slots:
     void Timer(); // 1-second signal coming from Time
 
 signals:
-    // Text
+    // Time
     void timeChanged();
 
     // Connected with TEXT
-    void updateText();
-    void newText();
-    void setNewText();
+    void updateQmlText(); //Qml
 
+    void updateText(); //Text
+    void newText();
 
     void clearTextInput();
 
-    // Time
+
     void roundStarted();
     void roundEnded();
 
@@ -61,13 +63,9 @@ signals:
 
 private:
     // m - member
-
-    int m_averageSpeed;
-    int m_rightSigns;
-    int m_allSigns;
-
     Text* pointerToText;
     Time* pointerToTime;
+    Speed* pointerToSpeed;
 
 };
 
