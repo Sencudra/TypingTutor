@@ -1,10 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
-
-
-
-
-
+import QtQuick.Layouts 1.0
 
 Window {
 
@@ -58,11 +54,13 @@ Window {
     }
         Rectangle{
             id: mainView
+            x: 0
+            y: 0
             anchors.margins: 10
             border.color: "black"
             width: 600
             height: 600
-            color: "#2ccb71"
+            color: "#ededed"
 
             Rectangle{
                 id: rectangleText
@@ -118,16 +116,23 @@ Window {
                     font.pixelSize: 30
                     enabled: false
                     onTextChanged: if (textInput.enabled == true)
-                                   engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
+                                       engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
+
+                    Item{
+                        Keyboard{
+                            y:40
+
+                        }
+                    }
                 }
+
             }
 
 
-        }
 
         Rectangle{
             id: bar
-            color: "#ededed"
+            color: "#2ccb71"
             width: 200
             height: 600
             anchors.left: mainView.right
@@ -329,7 +334,10 @@ Window {
             verticalAlignment: Text.AlignVCenter
         }
         }
-}
 
+        ColumnLayout {
+        }
+}
+}
 
 

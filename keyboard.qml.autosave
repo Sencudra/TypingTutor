@@ -1,0 +1,486 @@
+import QtQuick 2.0
+import QtQuick.Layouts 1.0
+
+
+
+
+Rectangle{
+
+    property string darkRed: "#c56868"
+    property string red: "#f1cfcf"
+
+    property string darkYellow: "#c6bd67"
+    property string yellow: "#f1efcf"
+
+    property string darkGreen: "#77c667"
+    property string green: "#d5f1cf"
+
+    property string darkBlue: "#67bdc6"
+    property string myblue: "#cfeef1"
+
+    property string darkPink: "#c667c6"
+    property string pink: "#f1cff1"
+
+    property string darkSpace: "#8c67c6"
+    property string space: "#dccff1"
+
+    property int customRadius: 5
+
+    width: 550
+    height: 200
+    color: "#ededed"
+    
+    
+    
+    Image {
+        id: image
+        x: 0
+        y: -48
+        width: 550
+        height: 300
+        fillMode: Image.PreserveAspectFit
+        source: "back_keyboard.gif"
+    }
+    
+    ColumnLayout {
+        x: 3
+        y: 4
+        spacing: 10
+
+        Rectangle {
+            id: rectangle
+            color: "#ffffff"
+            radius: 5
+            border.color: "#999999"
+            Layout.preferredHeight: 161
+            Layout.preferredWidth: 542
+            border.width: 1
+        }
+    }
+
+
+    RowLayout {
+        x: 11
+        y: 11
+        spacing: 3.2
+        
+        Rectangle {
+            id: a1
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num1
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num2
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num3
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num4
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num5
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num6
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num7
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num8
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num9
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: num0
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: sign1
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: sign2
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+    }
+    
+    RowLayout {
+        x: 64
+        y: 41
+        Rectangle {
+            id: a2
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a3
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a4
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a5
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a6
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a7
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a8
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a9
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a10
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a11
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a12
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a13
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        spacing: 3.2
+    }
+    
+    RowLayout {
+        x: 77
+        y: 72
+        Rectangle {
+            id: a14
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a15
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a16
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a17
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a18
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a19
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a20
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a21
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a22
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a23
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        
+        Rectangle {
+            id: a24
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        spacing: 3.2
+    }
+    
+    RowLayout {
+        x: 94
+        y: 103
+        Rectangle {
+            id: a25
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: a26
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: s27
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: a28
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: a29
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: a30
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: a31
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: rectangle53
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: rectangle54
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+
+        Rectangle {
+            id: rectangle55
+            color: "#fc0c0c"
+            radius: customRadius
+            Layout.preferredHeight: 28
+            Layout.preferredWidth: 32
+        }
+        spacing: 3.2
+    }
+    
+    Rectangle {
+        id: shift_left
+        x: 11
+        y: 103
+        width: 80
+        height: 28
+        color: "#ff0000"
+        radius: customRadius
+        Layout.preferredHeight: 28
+        Layout.preferredWidth: 32
+    }
+    
+    Rectangle {
+        id: shift_right
+        x: 448
+        y: 103
+        width: 90
+        height: 28
+        color: "#fc0c0c"
+        radius: customRadius
+        Layout.preferredHeight: 28
+        Layout.preferredWidth: 32
+    }
+    
+    Rectangle {
+        id: rectangle58
+        x: 134
+        y: 133
+        width: 241
+        height: 28
+        color: "#fc0c0c"
+        radius: customRadius
+        Layout.preferredHeight: 28
+        Layout.preferredWidth: 32
+    }
+}

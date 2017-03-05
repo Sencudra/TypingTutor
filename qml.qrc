@@ -1,5 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>Keyboard.qml</file>
+    </qresource>
+    <qresource prefix="/files">
+        <file>back_keyboard.gif</file>
+        <file>fore_keyboard.gif</file>
+        <file>shift_keyboard.gif</file>
+        <file>mask.png</file>
     </qresource>
 </RCC>
