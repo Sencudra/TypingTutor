@@ -1,10 +1,17 @@
 #include "text.h"
+#include <QDebug>
 
 // Text liabrary
-const int dataRows = 1;
+const int dataRows = 6;
 QString textDataBase[dataRows] =
 {
- "ВВВ"
+    "ВВВ6 ВВВ2",
+    "ВВВ5 ВВВ3",
+    "ВВВ4 ВВВ2",
+    "ВВВ3 ВВВ1",
+    "ВВВ2 ВВВ3",
+    "ВВВ1 ВВВ1",
+
  };
 
 //declaration
@@ -19,14 +26,16 @@ Text::Text(QObject *parent) : QObject(parent)
 }
 
 //return next word
-int Text::updateWord()
+void Text::updateWord()
 {
     if (m_current_word->next != NULL)
     {
+        m_current_word = m_current_word->next;
         m_wordForQml = m_current_word->word;
     }
     else
         m_wordForQml = "\0"; //End of the text;
+
 }
 
 //accessing text
@@ -47,7 +56,6 @@ int Text::updateText()
     QString text = writeTextForQml(m_current_word);
     //emit clearTextInput();
     m_textForQml = text;
-
     return 0;
 }
 

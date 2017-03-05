@@ -9,36 +9,35 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
 
     //Text
     pointerToText = new Text();
-    connect(this,SIGNAL(updateText()),pointerToText,SLOT(updateText()));
-    connect(this,SIGNAL(newText()),pointerToText,SLOT(newText()));
+
+    pointerToSpeed = new Speed();
+    pointerToSpeed->setPointerForTime(pointerToTime);
+
+
 
 }
 
-
 int programEngine::startRound(){
 
-    emit roundStarted();
-    emit newText();
-    emit setNewText();
-
+    // Time initialising
     pointerToTime->start_Timer();
-    emit timeChanged();
+    emit timeChanged(); // For qml file
 
-    m_rightSigns = 0;
-    m_averageSpeed = 0;
-    emit speedChanged();
+    // Text initialising
+    pointerToText->newText();
+    emit updateQmlText(); // For qml file
+
+    // Qml managing
+    emit roundStarted(); // Qml form visual changes
 
     return 0;
 }
 
 void programEngine::stopRound()
 {
-
     pointerToTime->stop_Timer();
-    // Miliseconds counting
 
-    m_averageSpeed = getSpeed();
-
+    // For qml file
     emit timeChanged();
     emit roundEnded();
 
@@ -47,9 +46,9 @@ void programEngine::stopRound()
 
 void programEngine::Timer()
 {
+    pointerToSpeed->updateSpeed();
 
-    m_allSigns = 0; // Мгновеная скорость
-
+    //For qml file
     emit timeChanged();
     emit speedChanged();
 }
@@ -58,19 +57,21 @@ void programEngine::Timer()
 
 bool programEngine::isRight(QString text)
 {
-    m_allSigns++;
+    pointerToText->getWord();
     if (text == "") // true, while backspacing
         return true;
     if (text == pointerToText->getWord()){
-        emit updateText();
+        pointerToText->updateText();
 
-        if (pointerToText->getWord() == "\0")
+        // for qml file
+        emit updateQmlText();
+        emit clearTextInput();
+
+       if (pointerToText->getWord() == "\0")
         {
             stopRound();
             return true;
         }
-        m_rightSigns++;
-
         return true;
     }
     else
@@ -87,7 +88,6 @@ bool programEngine::isRight(QString text)
         if (cursor != textLength)
             return false;
         else{
-            m_rightSigns++;
             return true;
         }
     }
@@ -95,19 +95,7 @@ bool programEngine::isRight(QString text)
 }
 
 
-int programEngine::getSpeed(){
-//   float a = (m_round_time.elapsed())/1000.0;
 
-//    if( a != 0){
-//        float t = m_rightSigns/a;
-//        qDebug() << t;
-//        a = int(t*60.0);
-//        return a;
-//    }
-//    else
-//        return 0;
-
-}
 
 /////////////////////////////////////////////////////////////////////
 

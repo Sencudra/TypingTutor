@@ -15,22 +15,23 @@ class Text : public QObject
 public:
     explicit Text(QObject *parent = 0);
 
-
-
     QString getText(){return m_textForQml;}
     QString getWord(){return m_wordForQml;}
+
+    int updateText();
+    void newText(){getTextFromBase();}
 
 private:
     int getTextFromBase();
     Textqueue* updateWord(Textqueue* word);
-    int updateWord();
+    void updateWord();
 
 
 signals:
 
 public slots:  
-    int updateText();
-    int newText(){getTextFromBase();}
+
+
 
 
 private:

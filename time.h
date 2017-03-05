@@ -9,15 +9,15 @@ class Time : public QObject
 {
     Q_OBJECT
 public:
-
     explicit Time(QObject *parent = 0);
+
     void start_Timer();
     void stop_Timer();
 
     QString getTime(){return m_secs;}
 
 
-public slots:
+private slots:
     void update_Timer();  // For timer
 
 signals:

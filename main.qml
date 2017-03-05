@@ -35,6 +35,9 @@ Window {
             //color
             rectangleStart.color = "#A0FABB"
             rectangleStop.color = "red"
+
+
+
       }
         onRoundEnded:{
             textInput.enabled = false
@@ -44,11 +47,13 @@ Window {
             rectangleStop.color = "#eb6f63"
             buttonStop.enabled = false
             textInput.enabled = false
-            supertext.text = ""
+
+
 
         }
         onClearTextInput: {
             textInput.text = ""
+
         }
     }
         Rectangle{
