@@ -7,22 +7,18 @@
 #include <QTimer>
 
 #include "time.h"
+#include "text.h"
+#include "speed.h"
 
-
-struct Textqueue  // queue
-{
-    QString word;
-    Textqueue* next;
-};
 
 class programEngine : public QObject  // engine`s class
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString secsInfo MEMBER m_secs NOTIFY timeChanged)   // time management
-    Q_PROPERTY(QString startText READ getTextFromBase NOTIFY textChanged)   //first assigment of the text
-    Q_PROPERTY(QString currentText READ updateText NOTIFY wordChanged)  // text update
-    Q_PROPERTY(int speed READ getSpeed NOTIFY speedChanged) // speedChanged
+    Q_PROPERTY(QString secsInfo READ getTime NOTIFY timeChanged)   // time management
+    Q_PROPERTY(QString currentText READ getText NOTIFY updateQmlText)  // text update
+    Q_PROPERTY(int average_speed READ getAverageSpeed NOTIFY speedChanged) // speedChanged
+    Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
 
 public:
     explicit programEngine(QObject *parent = 0);
@@ -33,28 +29,30 @@ public:
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
 
 private:
-    //Text
-    QString getTextFromBase(); //On the start
+    int getAverageSpeed(){return pointerToSpeed->getAverageSpeed();}
+    int getCurrentSpeed(){return pointerToSpeed->getCurrentSpeed();}
 
-    Textqueue* updateWord(Textqueue *word);
-    QString updateText();
-    int getSpeed();
+    //new
+    QString getTime(){return pointerToTime->getTime();}
+    QString getText(){return pointerToText->getText();}
 
 
 public slots:
-    // Time
-    void updateTime();
-    void changedTime();
+    void Timer(); // 1-second signal coming from Time
 
 signals:
-
-    // Text
+    // Time
     void timeChanged();
-    void textChanged();
-    void wordChanged();
+
+    // Connected with TEXT
+    void updateQmlText(); //Qml
+
+    void updateText(); //Text
+    void newText();
+
     void clearTextInput();
 
-    // Time
+
     void roundStarted();
     void roundEnded();
 
@@ -65,28 +63,10 @@ signals:
 
 private:
     // m - member
-    // Text
-    Textqueue* m_current_word;
-
-    //QTime
-    QString m_secs;    //Qml string
-    QTimer* m_timer;   //Timer
-
-    QTime m_gui_time;      // For gui
-    QTime m_round_time;     // Main data
-
-    int m_averageSpeed;
-    int m_rightSigns;
-    int m_allSigns;
-
+    Text* pointerToText;
     Time* pointerToTime;
+    Speed* pointerToSpeed;
 
 };
-
-
-
-
-
-
 
 #endif // PROGRAMENGINE_H

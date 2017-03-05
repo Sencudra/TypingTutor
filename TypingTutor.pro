@@ -5,7 +5,9 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     programengine.cpp \
-    time.cpp
+    time.cpp \
+    text.cpp \
+    speed.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,4 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     programengine.h \
-    time.h
+    time.h \
+    text.h \
+    speed.h

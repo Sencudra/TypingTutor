@@ -1,6 +1,8 @@
 #include "time.h"
 
-Time::Time()
+
+
+Time::Time(QObject *parent) : QObject(parent)
 {
     m_timer = new QTimer();
     m_gui_time = QTime(0,0);
@@ -39,12 +41,12 @@ void Time::stop_Timer()
 
     emit changedTime();
 
-    //qDebug() << m_secs << "Time";
 
 }
 
 void Time::update_Timer()
 {
+    m_timeElapsed = m_round_time.elapsed();
     m_gui_time = m_gui_time.addMSecs(1000);
     m_secs = m_gui_time.toString("mm:ss");
 

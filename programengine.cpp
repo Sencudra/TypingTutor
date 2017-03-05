@@ -1,91 +1,54 @@
 #include <programengine.h>
 
-
-
-const int dataRows = 1;
-QString textDataBase[dataRows] =
-{
- "ВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВВ"
- };
-
-Textqueue* generateTextQueue(QString text);
-QString writeTextForQml(Textqueue *first);
-
-
-////////////////////////////////////////////
-
-//Textqueue Class methods
-
 // Constructor
 programEngine::programEngine(QObject *parent) : QObject(parent){
 
+    //Time
     pointerToTime = new Time();
-    connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(changedTime()));
+    connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(Timer()));
 
-    m_timer = new QTimer();
-    m_gui_time = QTime(0,0);
+    //Text
+    pointerToText = new Text();
 
-    m_secs = m_gui_time.toString("mm:ss");
-    emit timeChanged();
+    pointerToSpeed = new Speed();
+    pointerToSpeed->setPointerForTime(pointerToTime);
 
-    connect(m_timer,SIGNAL(timeout()),this,SLOT(updateTime()));
+
 
 }
 
-
 int programEngine::startRound(){
 
-    emit textChanged();
-    emit roundStarted();
-
+    // Time initialising
     pointerToTime->start_Timer();
+    emit timeChanged(); // For qml file
 
-    m_timer->start(1000);
+    // Text initialising
+    pointerToText->newText();
+    emit updateQmlText(); // For qml file
 
-    //Time initialization
-    m_gui_time = QTime(0,0);
-    m_secs = m_gui_time.toString("mm:ss");
-    emit timeChanged();
-
-    m_round_time = QTime(0,0);
-    m_round_time.start();
-
-    m_rightSigns = 0;
-    m_averageSpeed = 0;
-    emit speedChanged();
+    // Qml managing
+    emit roundStarted(); // Qml form visual changes
 
     return 0;
 }
 
 void programEngine::stopRound()
 {
-
     pointerToTime->stop_Timer();
-    // Miliseconds counting
-    int a = m_round_time.elapsed();
 
-    m_gui_time = QTime(0,0);
-    m_gui_time = m_gui_time.addMSecs(a);
-
-    m_timer->stop();
-
-    m_secs = m_gui_time.toString("mm:ss.zzz");
-
-    m_averageSpeed = getSpeed();
-
+    // For qml file
     emit timeChanged();
     emit roundEnded();
 
 
 }
 
-void programEngine::updateTime()
+void programEngine::Timer()
 {
-    m_gui_time = m_gui_time.addMSecs(1000);
-    m_secs = m_gui_time.toString("mm:ss");
+    pointerToSpeed->updateSpeed();
 
-    m_allSigns = 0; // Мгновеная скорость
-
+    //For qml file
     emit timeChanged();
     emit speedChanged();
 }
@@ -94,83 +57,50 @@ void programEngine::updateTime()
 
 bool programEngine::isRight(QString text)
 {
-    m_allSigns++;
+    pointerToSpeed->signPressed();
+
     if (text == "") // true, while backspacing
         return true;
-    if (text == m_current_word->word){
-        m_current_word = updateWord(m_current_word);
+    if (text == pointerToText->getWord()){
+        pointerToText->updateText();
+        pointerToSpeed->rightWritten();
 
-        if (m_current_word == NULL)
+        // for qml file
+        emit updateQmlText();
+        emit clearTextInput();
+
+       if (pointerToText->getWord() == "\0")
         {
             stopRound();
             return true;
         }
-        emit wordChanged();
-
-        m_rightSigns++;
-
         return true;
     }
     else
     {
+
+
         int textLength = text.length();
         int cursor;
-        QChar* pointerToText = text.data();
-        QChar* pointerToM_Word = m_current_word->word.data();
-        for (cursor = 0; cursor < textLength && *pointerToText == *pointerToM_Word; cursor++)
+        QChar* pointerToTextChar = text.data();
+        QChar* pointerToM_WordChar = pointerToText->getWord().data();
+        for (cursor = 0; cursor < textLength && *pointerToTextChar == *pointerToM_WordChar; cursor++)
         {
-            pointerToM_Word++;
-            pointerToText++;
+            pointerToM_WordChar++;
+            pointerToTextChar++;
         }
         if (cursor != textLength)
             return false;
         else{
-            m_rightSigns++;
+             pointerToSpeed->rightWritten();
             return true;
         }
     }
 
 }
 
-QString programEngine::updateText()
-{
-    QString text = writeTextForQml(m_current_word);
-    emit clearTextInput();
-    return text;
-}
 
-Textqueue* programEngine::updateWord(Textqueue *word)
-{
-    if (word->next != NULL)
-    {
-        return m_current_word->next;
-    }
-    else
-        return NULL; // Конец текста
-}
 
-QString programEngine::getTextFromBase(){
-    int number = rand() % dataRows;
-    Textqueue* newTextQueue = generateTextQueue(textDataBase[number]);
-    m_current_word = newTextQueue;
-    QString newQText = writeTextForQml(newTextQueue);
-    return  newQText;
-}
-
-int programEngine::getSpeed()
-{
-    float a = (m_round_time.elapsed())/1000.0;
-
-    if( a != 0){
-        float t = m_rightSigns/a;
-        qDebug() << t;
-        a = int(t*60.0);
-        return a;
-    }
-    else
-        return 0;
-
-}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -178,62 +108,3 @@ int programEngine::getSpeed()
 
 
 
-Textqueue* generateTextQueue(QString text){
-
-    // Put text in queue
-    QChar* pointer = text.data();
-    QString buffer;
-
-    Textqueue* first = new Textqueue;
-    Textqueue* current = first;
-
-
-    first->word = "\0";
-
-    while(*pointer != 0)
-    {
-        buffer = "";
-
-        while((*pointer != ' ') && (*pointer != 0))
-        {
-            buffer += *pointer;
-            pointer++;
-        }
-        if (*pointer != 0)
-                buffer += *pointer;
-
-        while ((*pointer == ' ') && (*pointer != 0))
-            pointer++;
-
-
-        if (first->word == "\0")
-        {
-            first->word = buffer;
-            current = first;
-        }
-        else
-        {
-            Textqueue* newCell = new Textqueue;
-            current->next = newCell;
-            newCell->word = buffer;
-            current = newCell;
-
-
-        }
-    }
-    current->next = NULL;
-    return first;
-}
-
-QString writeTextForQml(Textqueue* first)
-{
-    QString buffer;
-    Textqueue* pointer = first;
-    while(pointer->next != NULL)
-    {
-        buffer += pointer->word;
-        pointer = pointer->next;
-    }
-    buffer += pointer->word;
-    return buffer;
-}

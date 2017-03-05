@@ -24,10 +24,7 @@ Window {
         target: engine
 
         //Signals, which come from class
-        onTextChanged: {
-          console.log("Qml works")
-          supertext.text = engine.startText
-        }
+
         onRoundStarted: {
           // Actions
             // Enabled/disabled
@@ -38,6 +35,9 @@ Window {
             //color
             rectangleStart.color = "#A0FABB"
             rectangleStop.color = "red"
+
+
+
       }
         onRoundEnded:{
             textInput.enabled = false
@@ -47,14 +47,13 @@ Window {
             rectangleStop.color = "#eb6f63"
             buttonStop.enabled = false
             textInput.enabled = false
-            supertext.text = ""
+
+
 
         }
         onClearTextInput: {
             textInput.text = ""
-        }
-        onWordChanged:{
-            supertext.text = engine.currentText
+
         }
     }
         Rectangle{
@@ -79,7 +78,7 @@ Window {
 
                 Text{
                     id: supertext
-                    text: textToWindow
+                    text: engine.currentText
                     textFormat: Text.AutoText
                     elide: Text.ElideRight
                     wrapMode: Text.WrapAnywhere
@@ -251,10 +250,11 @@ Window {
             Text {
                 id: speed
                 x: 20
-                y: 128
+                y: 164
                 width: 78
                 height: 30
-                text: engine.speed
+                text: (engine.average_speed)
+                wrapMode: Text.WrapAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 12
@@ -263,7 +263,7 @@ Window {
         Text {
             id: text5
             x: 102
-            y: 128
+            y: 164
             width: 78
             height: 30
             text: qsTr("Символов/сек")
@@ -272,6 +272,61 @@ Window {
             horizontalAlignment: Text.AlignLeft
             font.bold: false
             font.family: "Tahoma"
+        }
+
+        Text {
+            id: speed1
+            x: 20
+            y: 236
+            width: 78
+            height: 30
+            text: (engine.current_speed)
+            wrapMode: Text.WrapAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 12
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Text {
+            id: text6
+            x: 102
+            y: 236
+            width: 78
+            height: 30
+            text: qsTr("Символов/сек")
+            horizontalAlignment: Text.AlignLeft
+            font.bold: false
+            font.family: "Tahoma"
+            font.pixelSize: 12
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Text {
+            id: text7
+            x: 20
+            y: 128
+            width: 160
+            height: 30
+            text: qsTr("Средняя скорость")
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: false
+            font.family: "Tahoma"
+            font.pixelSize: 12
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Text {
+            id: text8
+            x: 20
+            y: 200
+            width: 160
+            height: 30
+            text: qsTr("Текущая скорость")
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: false
+            font.family: "Tahoma"
+            font.pixelSize: 12
+            verticalAlignment: Text.AlignVCenter
         }
         }
 }
