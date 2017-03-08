@@ -10,8 +10,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-
-
     QQmlContext *context = engine.rootContext();
 
     programEngine new_programEngine; // Пользовательский тип

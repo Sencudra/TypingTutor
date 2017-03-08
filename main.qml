@@ -1,10 +1,17 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.0
+import QtQuick.Controls 2.0
+
+
 
 Window {
 
     property string textToWindow: "Welcome to True Typing Editor <b><s>ever</s></b> (TTT). Click start for practicing!"
+    property int fontSize : mySlider.value
+
+
+    onFontSizeChanged: { supertext.font.pixelSize = fontSize;}
 
     id: window1
     visible: true
@@ -14,7 +21,10 @@ Window {
     maximumWidth: 800
     width: 800
     height: 600
+    property alias supertextFontpointSize: supertext.font.pointSize
+    property alias supertextStyleColor: supertext.styleColor
     title: qsTr("True Typing Teacher (TTT)")
+
 
     Connections{
         target: engine
@@ -35,6 +45,7 @@ Window {
 
 
       }
+
         onRoundEnded:{
             textInput.enabled = false
             textInput.text = ""
@@ -52,6 +63,7 @@ Window {
 
         }
     }
+
         Rectangle{
             id: mainView
             x: 0
@@ -61,11 +73,15 @@ Window {
             width: 600
             height: 600
             color: "#ededed"
+            border.width: 0
+
 
             Rectangle{
                 id: rectangleText
                 height: 200
                 color: "white"
+                radius: 5
+                border.width: 1
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.left: parent.left
@@ -84,15 +100,17 @@ Window {
                     anchors.leftMargin: 5
                     anchors.rightMargin: 5
                     anchors.bottomMargin: 5
-                    font.pointSize: 15
+
+
                     renderType: Text.QtRendering
                     verticalAlignment: Text.AlignTop
                     anchors.fill:parent
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.top: parent.top
-                    fontSizeMode: Text.HorizontalFit
+
                 }
+
             }
 
 
@@ -103,7 +121,7 @@ Window {
                 width: 560
                 height: 40
                 color: "#ffffff"
-                radius: 2
+                radius: 5
                 border.width: 0
 
                 TextInput {
@@ -119,13 +137,11 @@ Window {
                                        engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
 
                     Item{
-                        Keyboard{
+                        MyKeyboard{
                             y:40
-
                         }
                     }
                 }
-
             }
 
 
@@ -163,7 +179,9 @@ Window {
 
                 Text {
                     id: text1
+                    color: "#ffffff"
                     text: qsTr("Start")
+                    font.bold: true
 
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -176,7 +194,7 @@ Window {
                     anchors.leftMargin: 5
                     anchors.bottomMargin: 5
                     anchors.topMargin: 5
-                    font.pixelSize: 12
+                    font.pixelSize: 18
                 }
 
             }
@@ -198,6 +216,7 @@ Window {
                 fontSizeMode: Text.Fit
                 id: text2
                 height: 30
+                color: "#ffffff"
 
                 font.pixelSize: 34
             }
@@ -233,7 +252,9 @@ Window {
 
                 Text {
                     id: text3
+                    color: "#ffffff"
                     text: qsTr("Stop")
+                    font.bold: true
                     font.family: "Tahoma"
 
                     verticalAlignment: Text.AlignVCenter
@@ -247,7 +268,7 @@ Window {
                     anchors.leftMargin: 5
                     anchors.bottomMargin: 5
                     anchors.topMargin: 5
-                    font.pixelSize: 12
+                    font.pixelSize: 18
                 }
 
             }
@@ -258,7 +279,9 @@ Window {
                 y: 164
                 width: 78
                 height: 30
+                color: "#ffffff"
                 text: (engine.average_speed)
+                font.bold: true
                 wrapMode: Text.WrapAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
@@ -267,10 +290,11 @@ Window {
 
         Text {
             id: text5
-            x: 102
+            x: 87
             y: 164
             width: 78
             height: 30
+            color: "#ffffff"
             text: qsTr("Символов/сек")
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
@@ -285,7 +309,9 @@ Window {
             y: 236
             width: 78
             height: 30
+            color: "#ffffff"
             text: (engine.current_speed)
+            font.bold: true
             wrapMode: Text.WrapAnywhere
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 12
@@ -294,10 +320,11 @@ Window {
 
         Text {
             id: text6
-            x: 102
+            x: 87
             y: 236
             width: 78
             height: 30
+            color: "#ffffff"
             text: qsTr("Символов/сек")
             horizontalAlignment: Text.AlignLeft
             font.bold: false
@@ -312,6 +339,7 @@ Window {
             y: 128
             width: 160
             height: 30
+            color: "#ffffff"
             text: qsTr("Средняя скорость")
             horizontalAlignment: Text.AlignHCenter
             font.bold: false
@@ -326,6 +354,7 @@ Window {
             y: 200
             width: 160
             height: 30
+            color: "#ffffff"
             text: qsTr("Текущая скорость")
             horizontalAlignment: Text.AlignHCenter
             font.bold: false
@@ -333,10 +362,19 @@ Window {
             font.pixelSize: 12
             verticalAlignment: Text.AlignVCenter
         }
-        }
 
-        ColumnLayout {
+        Slider {
+            id: mySlider
+            x: 20
+            y: 284
+            width: 160
+            height: 33
+            stepSize: 1
+            to: 64
+            from: 18
+            value: 18
         }
+    }
 }
 }
 

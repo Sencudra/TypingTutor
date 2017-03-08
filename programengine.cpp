@@ -27,6 +27,9 @@ int programEngine::startRound(){
     pointerToText->newText();
     emit updateQmlText(); // For qml file
 
+    pointerToSpeed->setUp();
+    emit speedChanged();
+
     // Qml managing
     emit roundStarted(); // Qml form visual changes
 
@@ -78,8 +81,6 @@ bool programEngine::isRight(QString text)
     }
     else
     {
-
-
         int textLength = text.length();
         int cursor;
         QChar* pointerToTextChar = text.data();

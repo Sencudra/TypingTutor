@@ -5,7 +5,7 @@
 const int dataRows = 1;
 QString textDataBase[dataRows] =
 {
-
+    "И он тут же купил участок на обратном пути он заехал в Дантон Грин, договорился с подходящей четой, отозвавшейся на его объявление, и в тот же вечер ему удалось изготовить такую порцию Гераклеофорбии, что она вполне оправдывала все его решительные действия.",
 
  };
 
@@ -33,6 +33,10 @@ void Text::updateWord()
 
 }
 
+int Text::updateChar(){
+    return 0;
+}
+
 //accessing text
 int Text::getTextFromBase(){
     int number = rand() % dataRows;
@@ -41,6 +45,7 @@ int Text::getTextFromBase(){
     QString newQText = writeTextForQml(newTextQueue);
     m_textForQml = newQText;
     m_wordForQml = m_current_word->word;
+    m_charForQml = *(m_wordForQml.data());
     return 0;
 }
 

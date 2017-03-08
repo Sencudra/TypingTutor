@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Keyboard.qml</file>
+        <file>MyKeyboard.qml</file>
+        <file>MyKey.qml</file>
     </qresource>
     <qresource prefix="/files">
         <file>back_keyboard.gif</file>
