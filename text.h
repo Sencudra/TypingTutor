@@ -17,7 +17,7 @@ public:
 
     QString getText(){return m_textForQml;}
     QString getWord(){return m_wordForQml;}
-    QChar* getCharPointer(){return m_charPointer;}
+    QChar* getCharPointer(){return m_wordForQml.data();}
     int getChar(){return m_charForQml;}
 
     void updateChar(QChar* nextchar);
@@ -35,7 +35,6 @@ private:
 
     int m_charForQml;
     QString m_textForQml;
-    QChar* m_charPointer;
     QString m_wordForQml; // '\0' if END
 };
 

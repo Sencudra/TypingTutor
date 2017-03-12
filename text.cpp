@@ -2,11 +2,11 @@
 #include <QDebug>
 
 // Text liabrary
-const int dataRows = 1;
+const int dataRows = 2;
 QString textDataBase[dataRows] =
 {
     "И он тут же купил участок на обратном пути он заехал в Дантон Грин, договорился с подходящей четой, отозвавшейся на его объявление, и в тот же вечер ему удалось изготовить такую порцию Гераклеофорбии, что она вполне оправдывала все его решительные действия.",
-
+    "ё 1 ! 2 \" 3 ; 5 % 6 : 7 ? 8 * 9 ( 0 ) - _ = + й Ц у к е н г ш щ з х ъ ф ы в а п р о л д ж э я ч с  и т ь б ю . ,"
  };
 
 
@@ -54,8 +54,16 @@ void Text::updateChar(QChar* nextchar){
         m_charForQml = 0;
     }
     else{
-        if (newChar == newChar.toUpper())
+        if (newChar == newChar.toUpper()){
+            switch(ourNum+1){
+                case 66:case 2:case 4:case 6:case 8:
+                case 10:case 12:case 14:case 16:
+                case 18:case 20:case 22:case 24:case 64:
+                    m_charForQml = ourNum+1;
+                    return;
+            }
             m_charForQml = -(ourNum+1); // +1 cause for construction
+        }
         else
             m_charForQml = ourNum+1;
     }

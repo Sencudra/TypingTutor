@@ -33,7 +33,7 @@ Window {
         //Signals, which come from class
 
         onRoundStarted: {
-          // Actions
+            // Actions
             // Enabled/disabled
             buttonStart.enabled = false
             buttonStop.enabled = true
@@ -45,7 +45,7 @@ Window {
 
 
 
-      }
+        }
 
         onRoundEnded:{
             textInput.enabled = false
@@ -64,86 +64,89 @@ Window {
         }
     }
 
+    Rectangle{
+        id: mainView
+        x: 0
+        y: 0
+        anchors.margins: 10
+        border.color: "black"
+        width: 600
+        height: 600
+        color: "#ededed"
+        border.width: 0
+
+
         Rectangle{
-            id: mainView
-            x: 0
-            y: 0
-            anchors.margins: 10
+            id: rectangleText
+            height: 200
+            color: "white"
+            radius: 5
+            border.width: 1
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: parent.top
+            anchors.topMargin: 96
             border.color: "black"
-            width: 600
-            height: 600
-            color: "#ededed"
+
+            Text{
+                id: supertext
+                text: engine.currentText
+                textFormat: Text.AutoText
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAnywhere
+                anchors.topMargin: 5
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.bottomMargin: 5
+
+
+                renderType: Text.QtRendering
+                verticalAlignment: Text.AlignTop
+                anchors.fill:parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: parent.top
+
+            }
+
+        }
+
+
+        Item{
+            x: 25
+            y: 262
+            MyKeyboard{
+                x: 0
+                y:163
+
+            }
+        }
+
+        Rectangle {
+            id: rectangleInput
+            x: 25
+            y: 332
+            width: 560
+            height: 40
+            color: "#ffffff"
+            radius: 5
             border.width: 0
 
-
-            Rectangle{
-                id: rectangleText
-                height: 200
-                color: "white"
-                radius: 5
-                border.width: 1
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                anchors.top: parent.top
-                anchors.topMargin: 20
-                border.color: "black"
-
-                Text{
-                    id: supertext
-                    text: engine.currentText
-                    textFormat: Text.AutoText
-                    elide: Text.ElideRight
-                    wrapMode: Text.WrapAnywhere
-                    anchors.topMargin: 5
-                    anchors.leftMargin: 5
-                    anchors.rightMargin: 5
-                    anchors.bottomMargin: 5
-
-
-                    renderType: Text.QtRendering
-                    verticalAlignment: Text.AlignTop
-                    anchors.fill:parent
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.top: parent.top
-
-                }
-
+            TextInput {
+                id: textInput
+                anchors.rightMargin: 5
+                anchors.leftMargin: 5
+                anchors.bottomMargin: 5
+                anchors.topMargin: 5
+                anchors.fill: parent
+                font.pixelSize: 29
+                enabled: false
+                onTextChanged: if (textInput.enabled == true)
+                                   engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
             }
-
-
-            Rectangle {
-                id: rectangleInput
-                x: 20
-                y: 226
-                width: 560
-                height: 40
-                color: "#ffffff"
-                radius: 5
-                border.width: 0
-
-                TextInput {
-                    id: textInput
-                    anchors.rightMargin: 5
-                    anchors.leftMargin: 5
-                    anchors.bottomMargin: 5
-                    anchors.topMargin: 5
-                    anchors.fill: parent
-                    font.pixelSize: 30
-                    enabled: false
-                    onTextChanged: if (textInput.enabled == true)
-                                       engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
-
-                    Item{
-                        MyKeyboard{
-                            y:40
-
-                        }
-                    }
-                }
-            }
+        }
 
 
 
@@ -276,10 +279,10 @@ Window {
 
             Text {
                 id: speed
-                x: 20
-                y: 164
-                width: 78
-                height: 30
+                x: -140
+                y: 42
+                width: 38
+                height: 22
                 color: "#ffffff"
                 text: (engine.average_speed)
                 font.bold: true
@@ -289,94 +292,95 @@ Window {
                 font.pixelSize: 12
             }
 
-        Text {
-            id: text5
-            x: 87
-            y: 164
-            width: 78
-            height: 30
-            color: "#ffffff"
-            text: qsTr("Символов/сек")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-            font.bold: false
-            font.family: "Tahoma"
+            Text {
+                id: text5
+                x: -102
+                y: 42
+                width: 31
+                height: 22
+                color: "#ffffff"
+                text: qsTr("зн/сек")
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font.bold: false
+                font.family: "Tahoma"
+            }
+
+            Text {
+                id: speed1
+                x: 20
+                y: 236
+                width: 78
+                height: 30
+                color: "#ffffff"
+                text: (engine.current_speed)
+                font.bold: true
+                wrapMode: Text.WrapAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text6
+                x: 87
+                y: 236
+                width: 78
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Символов/сек")
+                horizontalAlignment: Text.AlignLeft
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text7
+                x: 20
+                y: 128
+                width: 160
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Средняя скорость")
+                horizontalAlignment: Text.AlignHCenter
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text8
+                x: 20
+                y: 200
+                width: 160
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Текущая скорость")
+                horizontalAlignment: Text.AlignHCenter
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Slider {
+                id: mySlider
+                x: 20
+                y: 284
+                width: 160
+                height: 33
+                stepSize: 1
+                to: 64
+                from: 18
+                value: 18
+            }
         }
 
-        Text {
-            id: speed1
-            x: 20
-            y: 236
-            width: 78
-            height: 30
-            color: "#ffffff"
-            text: (engine.current_speed)
-            font.bold: true
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text6
-            x: 87
-            y: 236
-            width: 78
-            height: 30
-            color: "#ffffff"
-            text: qsTr("Символов/сек")
-            horizontalAlignment: Text.AlignLeft
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text7
-            x: 20
-            y: 128
-            width: 160
-            height: 30
-            color: "#ffffff"
-            text: qsTr("Средняя скорость")
-            horizontalAlignment: Text.AlignHCenter
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text8
-            x: 20
-            y: 200
-            width: 160
-            height: 30
-            color: "#ffffff"
-            text: qsTr("Текущая скорость")
-            horizontalAlignment: Text.AlignHCenter
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Slider {
-            id: mySlider
-            x: 20
-            y: 284
-            width: 160
-            height: 33
-            stepSize: 1
-            to: 64
-            from: 18
-            value: 18
-        }
     }
-}
 }
 
 

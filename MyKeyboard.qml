@@ -54,11 +54,13 @@ Rectangle{
         f_a11.visible = false;
         f_a12.visible = false;
         f_a13.visible = false;
+        f_a14.visible = false;
         f_a15.visible = false;
         f_a16.visible = false;
         f_a17.visible = false;
         f_a18.visible = false;
         f_a19.visible = false;
+        f_a20.visible = false;
         f_a21.visible = false;
         f_a22.visible = false;
         f_a23.visible = false;
@@ -105,7 +107,7 @@ Rectangle{
 
         onCharChanged:{
             deactivise()
-
+            var newChar = engine.currentChar
             console.log("before " + newChar)
             if(newChar < 0)
             {

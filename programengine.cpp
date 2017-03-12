@@ -63,10 +63,11 @@ bool programEngine::isRight(QString text)
 
 
     if (text == ""){ // true, while backspacing
-        QChar* pointerToNextChar2 = (pointerToText->getWord()).data();
+
         QChar* pointerToNextChar = pointerToText->getCharPointer();
         pointerToText->updateChar(pointerToNextChar);
-        charChanged();
+
+        emit charChanged();
 
         return true;
     }
@@ -84,9 +85,9 @@ bool programEngine::isRight(QString text)
             return true;
         }
 
-        QChar* pointerToNextChar = pointerToText->getWord().data();
+        QChar* pointerToNextChar = pointerToText->getCharPointer();
         pointerToText->updateChar(pointerToNextChar);
-        charChanged();
+        emit charChanged();
 
         return true;
     }
@@ -105,9 +106,9 @@ bool programEngine::isRight(QString text)
             return false;
         else{
              pointerToSpeed->rightWritten();
-             QChar* pointerToNextChar = pointerToText->getWord().data() + text.length() + 1;
+             QChar* pointerToNextChar = pointerToText->getCharPointer() + text.length();
              pointerToText->updateChar(pointerToNextChar);
-             charChanged();
+             emit charChanged();
              return true;
         }
     }
