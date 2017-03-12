@@ -19,13 +19,13 @@ class programEngine : public QObject  // engine`s class
     Q_PROPERTY(QString currentText READ getText NOTIFY updateQmlText)  // text update
     Q_PROPERTY(int average_speed READ getAverageSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
+    Q_PROPERTY(int currentChar READ getChar NOTIFY charChanged) //charChanged
 
 public:
     explicit programEngine(QObject *parent = 0);
 
     Q_INVOKABLE int startRound();
     Q_INVOKABLE void stopRound();
-
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
 
 private:
@@ -35,6 +35,7 @@ private:
     //new
     QString getTime(){return pointerToTime->getTime();}
     QString getText(){return pointerToText->getText();}
+    int getChar(){return pointerToText->getChar();}
 
 
 public slots:
@@ -57,6 +58,7 @@ signals:
     void roundEnded();
 
     void speedChanged();
+    void charChanged();
 
 
 

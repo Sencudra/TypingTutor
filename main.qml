@@ -1,14 +1,18 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
-
-
-
+import QtQuick.Layouts 1.0
+import QtQuick.Controls 2.0
 
 
 
 Window {
 
     property string textToWindow: "Welcome to True Typing Editor <b><s>ever</s></b> (TTT). Click start for practicing!"
+    property int fontSize : mySlider.value
+
+
+
+    onFontSizeChanged: { supertext.font.pixelSize = fontSize;}
 
     id: window1
     visible: true
@@ -18,7 +22,10 @@ Window {
     maximumWidth: 800
     width: 800
     height: 600
+    property alias supertextFontpointSize: supertext.font.pointSize
+    property alias supertextStyleColor: supertext.styleColor
     title: qsTr("True Typing Teacher (TTT)")
+
 
     Connections{
         target: engine
@@ -26,7 +33,7 @@ Window {
         //Signals, which come from class
 
         onRoundStarted: {
-          // Actions
+            // Actions
             // Enabled/disabled
             buttonStart.enabled = false
             buttonStop.enabled = true
@@ -38,7 +45,8 @@ Window {
 
 
 
-      }
+        }
+
         onRoundEnded:{
             textInput.enabled = false
             textInput.text = ""
@@ -48,86 +56,103 @@ Window {
             buttonStop.enabled = false
             textInput.enabled = false
 
-
-
         }
+
         onClearTextInput: {
             textInput.text = ""
 
         }
     }
+
+    Rectangle{
+        id: mainView
+        x: 0
+        y: 0
+        anchors.margins: 10
+        border.color: "black"
+        width: 600
+        height: 600
+        color: "#ededed"
+        border.width: 0
+
+
         Rectangle{
-            id: mainView
-            anchors.margins: 10
+            id: rectangleText
+            height: 200
+            color: "white"
+            radius: 5
+            border.width: 1
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: parent.top
+            anchors.topMargin: 96
             border.color: "black"
-            width: 600
-            height: 600
-            color: "#2ccb71"
 
-            Rectangle{
-                id: rectangleText
-                height: 200
-                color: "white"
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
+            Text{
+                id: supertext
+                text: engine.currentText
+                textFormat: Text.AutoText
+                elide: Text.ElideRight
+                wrapMode: Text.WrapAnywhere
+                anchors.topMargin: 5
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                anchors.bottomMargin: 5
+
+
+                renderType: Text.QtRendering
+                verticalAlignment: Text.AlignTop
+                anchors.fill:parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.top: parent.top
-                anchors.topMargin: 20
-                border.color: "black"
 
-                Text{
-                    id: supertext
-                    text: engine.currentText
-                    textFormat: Text.AutoText
-                    elide: Text.ElideRight
-                    wrapMode: Text.WrapAnywhere
-                    anchors.topMargin: 5
-                    anchors.leftMargin: 5
-                    anchors.rightMargin: 5
-                    anchors.bottomMargin: 5
-                    font.pointSize: 15
-                    renderType: Text.QtRendering
-                    verticalAlignment: Text.AlignTop
-                    anchors.fill:parent
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.top: parent.top
-                    fontSizeMode: Text.HorizontalFit
-                }
             }
-
-
-            Rectangle {
-                id: rectangleInput
-                x: 20
-                y: 226
-                width: 560
-                height: 40
-                color: "#ffffff"
-                radius: 2
-                border.width: 0
-
-                TextInput {
-                    id: textInput
-                    anchors.rightMargin: 5
-                    anchors.leftMargin: 5
-                    anchors.bottomMargin: 5
-                    anchors.topMargin: 5
-                    anchors.fill: parent
-                    font.pixelSize: 30
-                    enabled: false
-                    onTextChanged: if (textInput.enabled == true)
-                                   engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
-                }
-            }
-
 
         }
 
+
+        Item{
+            x: 25
+            y: 262
+            MyKeyboard{
+                x: 0
+                y:163
+
+            }
+        }
+
+        Rectangle {
+            id: rectangleInput
+            x: 25
+            y: 332
+            width: 560
+            height: 40
+            color: "#ffffff"
+            radius: 5
+            border.width: 0
+
+            TextInput {
+                id: textInput
+                anchors.rightMargin: 5
+                anchors.leftMargin: 5
+                anchors.bottomMargin: 5
+                anchors.topMargin: 5
+                anchors.fill: parent
+                font.pixelSize: 29
+                enabled: false
+                onTextChanged: if (textInput.enabled == true)
+                                   engine.isRight(textInput.text) ? rectangleInput.color = "white" : rectangleInput.color = "red"
+            }
+        }
+
+
+
         Rectangle{
             id: bar
-            color: "#ededed"
+            color: "#2ccb71"
             width: 200
             height: 600
             anchors.left: mainView.right
@@ -158,7 +183,9 @@ Window {
 
                 Text {
                     id: text1
+                    color: "#ffffff"
                     text: qsTr("Start")
+                    font.bold: true
 
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -171,7 +198,7 @@ Window {
                     anchors.leftMargin: 5
                     anchors.bottomMargin: 5
                     anchors.topMargin: 5
-                    font.pixelSize: 12
+                    font.pixelSize: 18
                 }
 
             }
@@ -193,6 +220,7 @@ Window {
                 fontSizeMode: Text.Fit
                 id: text2
                 height: 30
+                color: "#ffffff"
 
                 font.pixelSize: 34
             }
@@ -228,7 +256,9 @@ Window {
 
                 Text {
                     id: text3
+                    color: "#ffffff"
                     text: qsTr("Stop")
+                    font.bold: true
                     font.family: "Tahoma"
 
                     verticalAlignment: Text.AlignVCenter
@@ -242,94 +272,115 @@ Window {
                     anchors.leftMargin: 5
                     anchors.bottomMargin: 5
                     anchors.topMargin: 5
-                    font.pixelSize: 12
+                    font.pixelSize: 18
                 }
 
             }
 
             Text {
                 id: speed
-                x: 20
-                y: 164
-                width: 78
-                height: 30
+                x: -140
+                y: 42
+                width: 38
+                height: 22
+                color: "#ffffff"
                 text: (engine.average_speed)
+                font.bold: true
                 wrapMode: Text.WrapAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 12
             }
 
-        Text {
-            id: text5
-            x: 102
-            y: 164
-            width: 78
-            height: 30
-            text: qsTr("Символов/сек")
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-            font.bold: false
-            font.family: "Tahoma"
+            Text {
+                id: text5
+                x: -102
+                y: 42
+                width: 31
+                height: 22
+                color: "#ffffff"
+                text: qsTr("зн/сек")
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font.bold: false
+                font.family: "Tahoma"
+            }
+
+            Text {
+                id: speed1
+                x: 20
+                y: 236
+                width: 78
+                height: 30
+                color: "#ffffff"
+                text: (engine.current_speed)
+                font.bold: true
+                wrapMode: Text.WrapAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text6
+                x: 87
+                y: 236
+                width: 78
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Символов/сек")
+                horizontalAlignment: Text.AlignLeft
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text7
+                x: 20
+                y: 128
+                width: 160
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Средняя скорость")
+                horizontalAlignment: Text.AlignHCenter
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Text {
+                id: text8
+                x: 20
+                y: 200
+                width: 160
+                height: 30
+                color: "#ffffff"
+                text: qsTr("Текущая скорость")
+                horizontalAlignment: Text.AlignHCenter
+                font.bold: false
+                font.family: "Tahoma"
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Slider {
+                id: mySlider
+                x: 20
+                y: 284
+                width: 160
+                height: 33
+                stepSize: 1
+                to: 64
+                from: 18
+                value: 18
+            }
         }
 
-        Text {
-            id: speed1
-            x: 20
-            y: 236
-            width: 78
-            height: 30
-            text: (engine.current_speed)
-            wrapMode: Text.WrapAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text6
-            x: 102
-            y: 236
-            width: 78
-            height: 30
-            text: qsTr("Символов/сек")
-            horizontalAlignment: Text.AlignLeft
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text7
-            x: 20
-            y: 128
-            width: 160
-            height: 30
-            text: qsTr("Средняя скорость")
-            horizontalAlignment: Text.AlignHCenter
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        Text {
-            id: text8
-            x: 20
-            y: 200
-            width: 160
-            height: 30
-            text: qsTr("Текущая скорость")
-            horizontalAlignment: Text.AlignHCenter
-            font.bold: false
-            font.family: "Tahoma"
-            font.pixelSize: 12
-            verticalAlignment: Text.AlignVCenter
-        }
-        }
+    }
 }
-
 
 

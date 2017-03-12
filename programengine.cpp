@@ -26,6 +26,10 @@ int programEngine::startRound(){
     // Text initialising
     pointerToText->newText();
     emit updateQmlText(); // For qml file
+    emit charChanged();
+
+    pointerToSpeed->setUp();
+    emit speedChanged();
 
     // Qml managing
     emit roundStarted(); // Qml form visual changes
@@ -40,8 +44,6 @@ void programEngine::stopRound()
     // For qml file
     emit timeChanged();
     emit roundEnded();
-
-
 }
 
 void programEngine::Timer()
@@ -59,8 +61,16 @@ bool programEngine::isRight(QString text)
 {
     pointerToSpeed->signPressed();
 
-    if (text == "") // true, while backspacing
+
+    if (text == ""){ // true, while backspacing
+
+        QChar* pointerToNextChar = pointerToText->getCharPointer();
+        pointerToText->updateChar(pointerToNextChar);
+
+        emit charChanged();
+
         return true;
+    }
     if (text == pointerToText->getWord()){
         pointerToText->updateText();
         pointerToSpeed->rightWritten();
@@ -74,12 +84,15 @@ bool programEngine::isRight(QString text)
             stopRound();
             return true;
         }
+
+        QChar* pointerToNextChar = pointerToText->getCharPointer();
+        pointerToText->updateChar(pointerToNextChar);
+        emit charChanged();
+
         return true;
     }
     else
     {
-
-
         int textLength = text.length();
         int cursor;
         QChar* pointerToTextChar = text.data();
@@ -93,7 +106,10 @@ bool programEngine::isRight(QString text)
             return false;
         else{
              pointerToSpeed->rightWritten();
-            return true;
+             QChar* pointerToNextChar = pointerToText->getCharPointer() + text.length();
+             pointerToText->updateChar(pointerToNextChar);
+             emit charChanged();
+             return true;
         }
     }
 

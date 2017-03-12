@@ -12,6 +12,7 @@ public:
 
     void setPointerForTime(Time* pointer){pointerToTime = pointer;}
 
+    void setUp();
     void updateSpeed();
 
     void rightWritten(){m_rightSigns++;}

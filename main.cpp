@@ -10,10 +10,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-
-
     QQmlContext *context = engine.rootContext();
-
+    context->setContextProperty("color","red");
     programEngine new_programEngine; // Пользовательский тип
     context->setContextProperty("engine", &new_programEngine);
     qDebug() << "OK";
