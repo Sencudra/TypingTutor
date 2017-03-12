@@ -39,6 +39,7 @@ void Time::stop_Timer()
 
     m_secs = m_gui_time.toString("mm:ss.zzz");
 
+
     emit changedTime();
 
 
@@ -50,7 +51,6 @@ void Time::update_Timer()
     m_gui_time = m_gui_time.addMSecs(1000);
     m_secs = m_gui_time.toString("mm:ss");
 
-    emit changedTime();
 
-    //qDebug() << m_secs << "Time";
+    emit changedTime();
 }

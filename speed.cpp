@@ -23,7 +23,7 @@ void Speed::setUp(){
 
 void Speed::updateSpeed(){
 
-    qDebug() << "Speed updated:";
+    //qDebug() << "Speed updated:";
     setAverageSpeed();
     setCurrentSpeed();
 
@@ -42,7 +42,7 @@ int Speed::setAverageSpeed(){
 
     if( a != 0){
         float t = m_rightSigns/a;  // BAG: if a<1 then t multiplied
-            qDebug() << t;
+            //qDebug() << t;
             a = int(t*60.0);
             m_averageSpeed = a;
         }

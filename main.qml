@@ -11,6 +11,7 @@ Window {
     property int fontSize : mySlider.value
 
 
+
     onFontSizeChanged: { supertext.font.pixelSize = fontSize;}
 
     id: window1
@@ -55,9 +56,8 @@ Window {
             buttonStop.enabled = false
             textInput.enabled = false
 
-
-
         }
+
         onClearTextInput: {
             textInput.text = ""
 
@@ -139,6 +139,7 @@ Window {
                     Item{
                         MyKeyboard{
                             y:40
+
                         }
                     }
                 }

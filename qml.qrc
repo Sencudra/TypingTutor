@@ -3,6 +3,7 @@
         <file>main.qml</file>
         <file>MyKeyboard.qml</file>
         <file>MyKey.qml</file>
+        <file>Lang.qml</file>
     </qresource>
     <qresource prefix="/files">
         <file>back_keyboard.gif</file>

@@ -9,6 +9,13 @@ QString textDataBase[dataRows] =
 
  };
 
+
+QChar keyArray_rus[67] = {L'ё',0,'1','!','2','\"','3',L'№','4',';','5',   '%','6',':','7','?','8','*','9','(','0',   ')','-','_','=','+',
+                          L'й',L'ц',L'у',L'к',L'е',   L'н',L'г',L'ш',L'щ',L'з',L'х',0,L'ъ',0,
+                          L'ф',   L'ы',L'в',L'а',L'п',L'р',L'о',L'л',L'д',L'ж',0,    L'э',0,
+                          L'я',L'ч',L'с',L'м',L'и',L'т',L'ь',L'б',   0,L'ю',0 ,'.',',',L' '};
+
+
 //declaration
 Textqueue* generateTextQueue(QString text);
 QString writeTextForQml(Textqueue *first);
@@ -33,8 +40,25 @@ void Text::updateWord()
 
 }
 
-int Text::updateChar(){
-    return 0;
+
+void Text::updateChar(QChar* nextchar){
+    QChar newChar =( *nextchar);
+    int ourNum = -1;
+    for(int num = 0; num < 67 &&(newChar.toLower() != (keyArray_rus[num]));num++)
+    {
+        ourNum = num;
+    };
+    qDebug() << "(" << newChar << ")" <<  keyArray_rus[ourNum] << ourNum << "ОТПРАВКА";
+    if (ourNum == -1 || ourNum == 66){
+        qDebug() << "wrong char sign";
+        m_charForQml = 0;
+    }
+    else{
+        if (newChar == newChar.toUpper())
+            m_charForQml = -(ourNum+1); // +1 cause for construction
+        else
+            m_charForQml = ourNum+1;
+    }
 }
 
 //accessing text
@@ -45,7 +69,7 @@ int Text::getTextFromBase(){
     QString newQText = writeTextForQml(newTextQueue);
     m_textForQml = newQText;
     m_wordForQml = m_current_word->word;
-    m_charForQml = *(m_wordForQml.data());
+    updateChar(m_wordForQml.data());
     return 0;
 }
 
@@ -57,6 +81,7 @@ int Text::updateText()
     m_textForQml = text;
     return 0;
 }
+
 
 /////////////////////////////////////////////////////////
 
