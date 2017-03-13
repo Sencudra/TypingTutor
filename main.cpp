@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     context->setContextProperty("engine", &new_programEngine);
     qDebug() << "OK";
 
-
+//    QFont serifFont;
+//    serifFont = QFont("Times", 10);
+//    QGuiApplication::setFont(serifFont);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
 
