@@ -13,11 +13,17 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
     pointerToSpeed = new Speed();
     pointerToSpeed->setPointerForTime(pointerToTime);
 
+    mistakes = 0;mistakeDone(); // for gui update
 
+    createStat();
 
 }
 
 int programEngine::startRound(){
+
+    mistakes = 0;mistakeDone(); // for gui update
+    isRightNow = true; // for isRight()
+
 
     // Time initialising
     pointerToTime->start_Timer();
@@ -41,6 +47,8 @@ void programEngine::stopRound()
 {
     pointerToTime->stop_Timer();
 
+
+
     // For qml file
     emit timeChanged();
     emit roundEnded();
@@ -49,6 +57,8 @@ void programEngine::stopRound()
 void programEngine::Timer()
 {
     pointerToSpeed->updateSpeed();
+
+
 
     //For qml file
     emit timeChanged();
@@ -69,6 +79,7 @@ bool programEngine::isRight(QString text)
 
         emit charChanged();
 
+        isRightNow = true;
         return true;
     }
     if (text == pointerToText->getWord()){
@@ -81,7 +92,11 @@ bool programEngine::isRight(QString text)
 
        if (pointerToText->getWord() == "\0")
         {
-            stopRound();
+            stopRound();            
+            createStruct(); // saving data
+            createStat();
+
+
             return true;
         }
 
@@ -89,6 +104,7 @@ bool programEngine::isRight(QString text)
         pointerToText->updateChar(pointerToNextChar);
         emit charChanged();
 
+        isRightNow = true;
         return true;
     }
     else
@@ -102,9 +118,17 @@ bool programEngine::isRight(QString text)
             pointerToM_WordChar++;
             pointerToTextChar++;
         }
-        if (cursor != textLength)
+        if (cursor != textLength){
+
+            if(isRightNow){
+                mistakes++; mistakeDone(); // for gui update
+            }
+            isRightNow = false;
             return false;
+
+        }
         else{
+             isRightNow = true;
              pointerToSpeed->rightWritten();
              QChar* pointerToNextChar = pointerToText->getCharPointer() + text.length();
              pointerToText->updateChar(pointerToNextChar);
@@ -113,6 +137,43 @@ bool programEngine::isRight(QString text)
         }
     }
 
+}
+
+QList<statData*> programEngine::createStat(){
+
+        QList<statData*> obj;
+
+        ifstream fin;
+        fin.open("STAT1.txt");
+        string name1;int time1;int speed1;int mist1;
+
+
+        while(fin >> name1 >> time1 >> speed1 >> mist1) {
+                statData* data = new statData();
+                data->name = name1;
+                data->time = time1;
+                data->speed = speed1;
+                data->mistakes = mist1;
+                obj.push_back(data);
+                std::cout << name1 << " "<< time1<<" " << speed1<<" " << mist1<<" " << endl;
+            }
+
+        m_myModel = obj;
+        emit modelChanged();
+        fin.close();
+
+
+}
+
+void programEngine::createStruct(){
+
+    statData data;
+    data.name = "Vlad";
+    data.time = pointerToTime->getQTime();
+    data.mistakes = mistakes;
+    data.speed = pointerToSpeed->getAverageSpeed();
+
+    data.saveStruct();
 }
 
 

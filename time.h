@@ -17,6 +17,7 @@ public:
     int getTimeElapsed(){return m_timeElapsed;}
 
     QString getTime(){return m_secs;}
+    int getQTime(){return m_int_time;}
 
 
 private slots:
@@ -32,6 +33,7 @@ private:
     QString m_secs;    //Qml string
     QTimer* m_timer;   //Timer
 
+    int m_int_time;
     QTime m_gui_time;      // For gui
     QTime m_round_time;     // Main data
 

@@ -31,7 +31,7 @@ void Time::stop_Timer()
 {
     // Miliseconds counting
     int a = m_round_time.elapsed();
-
+    m_int_time = a;
     m_gui_time = QTime(0,0);
     m_gui_time = m_gui_time.addMSecs(a);
 

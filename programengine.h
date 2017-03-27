@@ -6,9 +6,43 @@
 #include <QTime>
 #include <QTimer>
 
+
+//File saving
+#include <fstream>
+#include <iostream>
+
+#include <vector>
+
 #include "time.h"
 #include "text.h"
 #include "speed.h"
+
+using namespace std;
+
+struct statData{
+    //режим
+    string name;
+    //текст
+    int time;
+    int speed;
+    int mistakes;
+
+
+
+    void saveStruct(){
+        ofstream fout;
+        if (!fout)
+            cout << "Cannot open file.\n";
+        fout.open("STAT1.txt",ios::app);
+        fout << name << " " <<  time << " " << speed << " " << mistakes << " ";
+        fout.close();
+    }
+
+};
+
+
+
+
 
 
 class programEngine : public QObject  // engine`s class
@@ -20,6 +54,8 @@ class programEngine : public QObject  // engine`s class
     Q_PROPERTY(int average_speed READ getAverageSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int currentChar READ getChar NOTIFY charChanged) //charChanged
+    Q_PROPERTY(int numMistake MEMBER mistakes NOTIFY mistakeDone) // mistake done
+    Q_PROPERTY(QList<statData*> myModel MEMBER m_myModel NOTIFY modelChanged) // modell
 
 public:
     explicit programEngine(QObject *parent = 0);
@@ -36,6 +72,10 @@ private:
     QString getTime(){return pointerToTime->getTime();}
     QString getText(){return pointerToText->getText();}
     int getChar(){return pointerToText->getChar();}
+    void createStruct();
+    QList<statData *> createStat();
+
+
 
 
 public slots:
@@ -51,14 +91,20 @@ signals:
     void updateText(); //Text
     void newText();
 
-    void clearTextInput();
 
 
+    // Round control
     void roundStarted();
     void roundEnded();
 
+    // Gui control
     void speedChanged();
     void charChanged();
+    void clearTextInput();
+    void mistakeDone();
+
+
+    void modelChanged();
 
 
 
@@ -68,7 +114,15 @@ private:
     Text* pointerToText;
     Time* pointerToTime;
     Speed* pointerToSpeed;
+    QList<statData*> m_myModel;
+
+    int mistakes;
+    bool isRightNow;
 
 };
+
+
+
+
 
 #endif // PROGRAMENGINE_H
