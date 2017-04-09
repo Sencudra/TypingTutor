@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     programengine.cpp \
     time.cpp \
     text.cpp \
-    speed.cpp
+    speed.cpp \
+    table.cpp
 
 RESOURCES += qml.qrc
 
@@ -37,4 +38,5 @@ HEADERS += \
     programengine.h \
     time.h \
     text.h \
-    speed.h
+    speed.h \
+    table.h

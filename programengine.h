@@ -10,6 +10,8 @@
 //File saving
 #include <fstream>
 #include <iostream>
+#include <time.h>
+
 
 #include <vector>
 
@@ -29,13 +31,22 @@ struct statData{
 
 
 
+
     void saveStruct(){
         ofstream fout;
+
+        fout.open("C:\\Users\\Vlad\\Desktop\\STATTYPINGTUTOR.txt",ios::app);
         if (!fout)
             cout << "Cannot open file.\n";
-        fout.open("STAT1.txt",ios::app);
-        fout << name << " " <<  time << " " << speed << " " << mistakes << " ";
+
+        QDateTime dateTime = QDateTime::currentDateTime();
+
+        QString str1 = dateTime.toString("hh:mm:ss|dd.MM.yyyy");
+        qDebug() << str1;
+        fout << name << " " <<  time << " " << speed << " " << mistakes << " " << str1.toStdString() << " ";
         fout.close();
+
+        //Reading of the table in table.cpp/.h
     }
 
 };
@@ -55,7 +66,7 @@ class programEngine : public QObject  // engine`s class
     Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int currentChar READ getChar NOTIFY charChanged) //charChanged
     Q_PROPERTY(int numMistake MEMBER mistakes NOTIFY mistakeDone) // mistake done
-    Q_PROPERTY(QList<statData*> myModel MEMBER m_myModel NOTIFY modelChanged) // modell
+    //Q_PROPERTY(QList<statData*> myModel MEMBER m_myModel NOTIFY modelChanged) // modell
 
 public:
     explicit programEngine(QObject *parent = 0);
@@ -73,7 +84,7 @@ private:
     QString getText(){return pointerToText->getText();}
     int getChar(){return pointerToText->getChar();}
     void createStruct();
-    QList<statData *> createStat();
+    //QList<statData *> createStat();
 
 
 

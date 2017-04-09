@@ -15,7 +15,7 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
 
     mistakes = 0;mistakeDone(); // for gui update
 
-    createStat();
+    //createStat();
 
 }
 
@@ -94,7 +94,7 @@ bool programEngine::isRight(QString text)
         {
             stopRound();            
             createStruct(); // saving data
-            createStat();
+            //createStat();
 
 
             return true;
@@ -139,31 +139,6 @@ bool programEngine::isRight(QString text)
 
 }
 
-QList<statData*> programEngine::createStat(){
-
-        QList<statData*> obj;
-
-        ifstream fin;
-        fin.open("STAT1.txt");
-        string name1;int time1;int speed1;int mist1;
-
-
-        while(fin >> name1 >> time1 >> speed1 >> mist1) {
-                statData* data = new statData();
-                data->name = name1;
-                data->time = time1;
-                data->speed = speed1;
-                data->mistakes = mist1;
-                obj.push_back(data);
-                std::cout << name1 << " "<< time1<<" " << speed1<<" " << mist1<<" " << endl;
-            }
-
-        m_myModel = obj;
-        emit modelChanged();
-        fin.close();
-
-
-}
 
 void programEngine::createStruct(){
 
