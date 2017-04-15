@@ -9,55 +9,56 @@ import Qt.labs.folderlistmodel 1.0
 // Таблица
 
 Rectangle {
+    width: 560
+    height: 300
 
     Connections{
         target: table
     }
-    width: 600
-    height: 300
+
 
     TableView {
         id: view
-        anchors.margins: 10
         anchors.fill: parent
         model: table //attention
         clip: true
 
         TableViewColumn {
-            width: 100
+            width: 85
             title: "Nickname"
             role: "name"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
 
         }
         TableViewColumn {
-            width: 50
+            width: 85
             title: "Time"
             role: "time"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
         }
         TableViewColumn {
-            width: 50
+            width: 150
             title: "Average Speed"
             role: "speed"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
         }
         TableViewColumn {
-            width: 50
+            width: 90
             title: "Mistakes"
             role: "mistakes"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
         }
         TableViewColumn {
-            width: 50
+
+            width: 150
             title: "Date"
             role: "date"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
         }
-
-//        itemDelegate: Item {
-//            Text {
-//                anchors.left: parent.left
-//                anchors.verticalCenter: parent.verticalCenter
-//                renderType: Text.NativeRendering
-//                text: table.data(0,name)
-
-//            }
-//        }
     }
 }

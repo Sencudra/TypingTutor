@@ -1,38 +1,56 @@
 #include "table.h"
+#include <QDebug>
 
 Table::Table(QObject *parent):QAbstractListModel(parent)
 {
-            std::ifstream fin;
-            fin.open("C:\\Users\\Vlad\\Desktop\\STATTYPINGTUTOR.txt");
-            if(!fin)
-                std::cout << "Cannot open file.\n";
+//    if(!updateTable())
+//        qDebug() << "Error loading table";
+    updateTable();
 
-            std::string name1;
-            int time1;
-            int speed1;
-            int mist1;
-            std::string date1;
-
-            while(fin >> name1 >> time1 >> speed1 >> mist1 >> date1) {
-                    Data* new_data = new Data();
-
-                    new_data->name = QString::fromStdString(name1);
-                    new_data->time = time1;
-                    new_data->speed = speed1;
-                    new_data->mistakes = mist1;
-                    new_data->date = QString::fromStdString(date1);
-                    dataBase.push_back(new_data);
-
-                    std::cout << name1 << " "<< time1<<" " << speed1<<" " << mist1<<" "<< date1 << " " << std::endl;
-            }
-            fin.close();
+}
 
 
-            for(Data* x : dataBase)
-                m_data.append("beatch");
+bool Table::updateTable()
+{
+    qDebug() << "Updating table";
+    if(!dataBase.empty()){
+        dataBase.clear();
+        m_data.clear();
+        //qDebug() << "HEY";
+    }
+
+    std::ifstream fin;
+    fin.open("C:\\Users\\Vlad\\Desktop\\STATTYPINGTUTOR.txt");
+    if(!fin)
+        std::cout << "Cannot open file.\n";
+
+    qDebug() << "Updating table.";
+
+    std::string name1;
+    int time1;
+    int speed1;
+    int mist1;
+    std::string date1;
+
+    while(fin >> name1 >> time1 >> speed1 >> mist1 >> date1) {
+            Data* new_data = new Data();
+
+            new_data->name = QString::fromStdString(name1);
+            new_data->time = time1;
+            new_data->speed = speed1;
+            new_data->mistakes = mist1;
+            new_data->date = QString::fromStdString(date1);
+            dataBase.push_back(new_data);
+
+            std::cout << name1 << " "<< time1<<" " << speed1<<" " << mist1<<" "<< date1 << " " << std::endl;
+    }
+    fin.close();
 
 
+    for(Data* x : dataBase)
+        m_data.append("beatch");
 
+                    return true;
 }
 
 int Table::rowCount(const QModelIndex &parent) const
@@ -78,10 +96,12 @@ QHash<int, QByteArray> Table::roleNames() const
     return roles;
 }
 
+
+// Unused
 void Table::add()
 {
     beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
-    m_data.append("new");
+    m_data.append("newbeach");
     endInsertRows();
 
     m_data[0] = QString("Size: %1").arg(m_data.size());

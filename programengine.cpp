@@ -10,10 +10,15 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
     //Text
     pointerToText = new Text();
 
+    //Speed
     pointerToSpeed = new Speed();
     pointerToSpeed->setPointerForTime(pointerToTime);
 
-    mistakes = 0;mistakeDone(); // for gui update
+    //Table
+    pointerToTable = new Table();
+
+    mistakes = 0;
+    emit mistakeDone(); // for gui update
 
     //createStat();
 
@@ -45,9 +50,8 @@ int programEngine::startRound(){
 
 void programEngine::stopRound()
 {
+    qDebug() << "programEngine::stopRound";
     pointerToTime->stop_Timer();
-
-
 
     // For qml file
     emit timeChanged();
@@ -94,9 +98,8 @@ bool programEngine::isRight(QString text)
         {
             stopRound();            
             createStruct(); // saving data
-            //createStat();
 
-
+            pointerToTable->updateTable();
             return true;
         }
 

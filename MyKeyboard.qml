@@ -92,13 +92,9 @@ Rectangle{
         f_space.visible = false;
     }
 
-    Item{
-
-    }
-
-
     Connections{
         target: engine
+
 
         onRoundEnded:{
             deactivise()
@@ -108,14 +104,14 @@ Rectangle{
         onCharChanged:{
             deactivise()
             var newChar = engine.currentChar
-            //console.log("before " + newChar)
+
             if(newChar < 0)
             {
                 f_shift_left.visible = true
                 f_shift_right.visible = true
                 newChar*=-1;
             }
-            //console.log("after " + newChar)
+
 
             // DISCLAIMER :: DONT OPEN - DANGEROUS FOR YOUR EYES
             // DISCLAIMER :: DONT OPEN - DANGEROUS FOR YOUR EYES
@@ -1216,6 +1212,4 @@ Rectangle{
         textcolor: myWhite
         }
      }
-
-
 }

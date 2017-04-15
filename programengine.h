@@ -7,17 +7,16 @@
 #include <QTimer>
 
 
-//File saving
-#include <fstream>
+#include <fstream> //File saving
 #include <iostream>
 #include <time.h>
-
-
 #include <vector>
+
 
 #include "time.h"
 #include "text.h"
 #include "speed.h"
+#include "table.h"
 
 using namespace std;
 
@@ -29,10 +28,7 @@ struct statData{
     int speed;
     int mistakes;
 
-
-
-
-    void saveStruct(){
+void saveStruct(){
         ofstream fout;
 
         fout.open("C:\\Users\\Vlad\\Desktop\\STATTYPINGTUTOR.txt",ios::app);
@@ -42,19 +38,15 @@ struct statData{
         QDateTime dateTime = QDateTime::currentDateTime();
 
         QString str1 = dateTime.toString("hh:mm:ss|dd.MM.yyyy");
-        qDebug() << str1;
+
         fout << name << " " <<  time << " " << speed << " " << mistakes << " " << str1.toStdString() << " ";
         fout.close();
 
+        qDebug() << str1 << "Data saved!";
         //Reading of the table in table.cpp/.h
     }
 
 };
-
-
-
-
-
 
 class programEngine : public QObject  // engine`s class
 {
@@ -66,7 +58,7 @@ class programEngine : public QObject  // engine`s class
     Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int currentChar READ getChar NOTIFY charChanged) //charChanged
     Q_PROPERTY(int numMistake MEMBER mistakes NOTIFY mistakeDone) // mistake done
-    //Q_PROPERTY(QList<statData*> myModel MEMBER m_myModel NOTIFY modelChanged) // modell
+
 
 public:
     explicit programEngine(QObject *parent = 0);
@@ -75,16 +67,19 @@ public:
     Q_INVOKABLE void stopRound();
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
 
+    Table* getTablePointer(){return pointerToTable;}
+
 private:
     int getAverageSpeed(){return pointerToSpeed->getAverageSpeed();}
     int getCurrentSpeed(){return pointerToSpeed->getCurrentSpeed();}
+
 
     //new
     QString getTime(){return pointerToTime->getTime();}
     QString getText(){return pointerToText->getText();}
     int getChar(){return pointerToText->getChar();}
     void createStruct();
-    //QList<statData *> createStat();
+
 
 
 
@@ -125,15 +120,11 @@ private:
     Text* pointerToText;
     Time* pointerToTime;
     Speed* pointerToSpeed;
-    QList<statData*> m_myModel;
+    Table* pointerToTable;
 
     int mistakes;
     bool isRightNow;
 
 };
-
-
-
-
 
 #endif // PROGRAMENGINE_H

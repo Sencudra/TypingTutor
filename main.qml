@@ -360,6 +360,7 @@ ApplicationWindow {
                         anchors.rightMargin: 5
                         anchors.bottomMargin: 5
 
+                        font.pixelSize: 20
 
                         renderType: Text.QtRendering
                         verticalAlignment: Text.AlignTop

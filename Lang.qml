@@ -1,7 +1,15 @@
 import QtQuick 2.0
+Item{
+    id: language
+    Connections{
+        target: engine
 
-Item {
-    id: rus
+        onRoundStarted:{
+            klav();
+        }
+    }
+
+
 
     property string l_f_a1 : "Ё"
     property string l_f_a2 : "Й"
@@ -52,4 +60,60 @@ Item {
     property string l_f_shift : "SHIFT"
     property string l_f_space : "ПРОБЕЛ"
 
+    function klav(){
+
+        //id: rus
+    if(true){
+
+        l_f_a1 = "`"
+        l_f_a2 = "Q"
+        l_f_a3 = "W"
+        l_f_a4 = "E"
+        l_f_a5 = "R"
+        l_f_a6 = "T"
+        l_f_a7 = "Y"
+        l_f_a8 = "U"
+        l_f_a9 = "I"
+        l_f_a10 = "O"
+        l_f_a11 = "P"
+        l_f_a12 = "["
+        l_f_a13 = "]"
+        l_f_a14 = "A"
+        l_f_a15 = "S"
+        l_f_a16 = "D"
+        l_f_a17 = "F"
+        l_f_a18 = "G"
+        l_f_a19 = "H"
+        l_f_a20 = "J"
+        l_f_a21 = "K"
+        l_f_a22 = "L"
+        l_f_a23 = ";"
+        l_f_a24 = "'"
+        l_f_a25 = "Z"
+        l_f_a26 = "X"
+        l_f_a27 = "C"
+        l_f_a28 = "V"
+        l_f_a29 = "B"
+        l_f_a30 = "N"
+        l_f_a31 = "M"
+        l_f_a32 = ","
+        l_f_a33 = "."
+        l_f_dot = "/"
+        l_f_num1 = "1"
+        l_f_num2 = "2"
+        l_f_num3 = "3"
+        l_f_num4 = "4"
+        l_f_num5 = "5"
+        l_f_num6 = "6"
+        l_f_num7 = "7"
+        l_f_num8 = "8"
+        l_f_num9 = "9"
+        l_f_num0 = "0"
+        l_f_sign1 = "-"
+        l_f_sign2 = "="
+        l_f_shift = "SHIFT"
+        l_f_space = "SPACE"
+
+        }
+    }
 }

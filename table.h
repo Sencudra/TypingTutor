@@ -32,6 +32,7 @@ public:
     };
 
     Table(QObject* parent = 0);
+    bool updateTable();
 
     virtual int rowCount(const QModelIndex &parent) const;
     //virtual int columnCount(const QModelIndex& parent) const;
@@ -40,6 +41,8 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE void add();
+public slots:
+    void slot_updateTable(){updateTable();}
 
 private:
     QStringList m_data;
