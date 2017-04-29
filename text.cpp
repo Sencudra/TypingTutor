@@ -1,17 +1,9 @@
 #include "text.h"
 #include <QDebug>
+#include <fstream>
+#include <iostream>
 
-// Text liabrary
-const int dataRows = 4;
-QString textDataBase[dataRows] =
-{
-    "аааааа",
-    "Text input right",
-    "И он тут же купил участок на обратном пути он заехал в Дантон Грин, договорился с подходящей четой, отозвавшейся на его объявление, и в тот же вечер ему удалось изготовить такую порцию Гераклеофорбии, что она вполне оправдывала все его решительные действия.",
-    "ё 1 ! 2 \" 3 ; 5 % 6 : 7 ? 8 * 9 ( 0 ) - _ = + й Ц у к е н г ш щ з х ъ ф ы в а п р о л д ж э я ч с  и т ь б ю . ,"
- };
-
-
+// dictiary
 QChar keyArray_rus[2][67] = {
                          {L'ё',0,'1','!','2','\"','3',L'№','4',';','5','%','6',':','7','?','8','*','9','(','0',')','-','_','=','+',
                           L'й',L'ц',L'у',L'к',L'е',   L'н',L'г',L'ш',L'щ',L'з',L'х',0,L'ъ',0,
@@ -22,7 +14,8 @@ QChar keyArray_rus[2][67] = {
                           L'a',   L's',L'd',L'f',L'g',L'h',L'j',L'k',L'l',L';',':',    L'\'','\"',
                           L'z',L'x',L'c',L'v',L'b',L'n',L'm',L',',   '<',L'.','>' ,'/','?',L' '}};
 
-//declaration
+
+//prototypes
 Textqueue* generateTextQueue(QString text);
 QString writeTextForQml(Textqueue *first);
 
@@ -30,7 +23,7 @@ QString writeTextForQml(Textqueue *first);
 
 Text::Text()
 {
-
+    loadBase();
 }
 
 //return next word
@@ -43,18 +36,16 @@ void Text::updateWord()
     }
     else
         m_wordForQml = "\0"; //End of the text;
-
 }
 
 
 void Text::updateChar(QChar* nextchar){
     QChar newChar =( *nextchar);
     int ourNum = -1;
-    for(int num = 0; num < 67 &&(newChar.toLower() != (keyArray_rus[1][num]));num++)
+    for(int num = 0; num < 67 &&(newChar.toLower() != (keyArray_rus[m_language][num]));num++)
     {
         ourNum = num;
     };
-    //qDebug() << "(" << newChar << ")" <<  keyArray_rus[ourNum] << ourNum << "ОТПРАВКА";
     if (ourNum == -1 || ourNum == 66){
         qDebug() << "wrong char sign";
         m_charForQml = 0;
@@ -75,10 +66,65 @@ void Text::updateChar(QChar* nextchar){
     }
 }
 
+
+// Fecking Russian
+std::wstring StringToWString(const std::string& s)
+{
+    std::wstring temp(s.length(),L' ');
+    std::copy(s.begin(), s.end(), temp.begin());
+    return temp;
+}
+
+void Text::loadBase(){
+
+    std::ifstream fin;
+    fin.open("C:\\Users\\Vlad\\Desktop\\BASETYPINGTUTOR.txt");//FILENAME
+    if(!fin)
+        std::cout << "Cannot open file.\n";
+
+    int langId;
+
+    int i = 0;
+    while(i < 3)
+    {
+        i++;
+        std::string txt = "";
+        std::string inSign;
+
+        fin >> langId;
+
+        fin >> inSign;
+        if(inSign == "{"){
+            do
+            {
+                fin >> inSign;
+                if (inSign != "}")
+                    txt = txt + inSign + " ";
+            } while(inSign != "}");
+        }
+        txt[txt.length()-1] = '\0';
+
+        TextStruct* new_data = new TextStruct();
+
+            //std::wstring qtext = StringToWString(txt);
+
+            new_data->text = QString::fromStdString(txt);
+            qDebug() << new_data->text;
+
+            new_data->langId = langId;
+
+            textDataBase.push_back(new_data);
+
+            std::cout << txt << " " << langId << std::endl;
+    }
+    fin.close();
+}
+
 //accessing text
 int Text::getTextFromBase(){
-    int number = 1;//rand() % dataRows;
-    Textqueue* newTextQueue = generateTextQueue(textDataBase[number]);
+    int number = rand() % textDataBase.size();
+    Textqueue* newTextQueue = generateTextQueue(textDataBase[number]->text);
+    m_language = textDataBase[number]->langId;
     m_current_word = newTextQueue;
     QString newQText = writeTextForQml(newTextQueue);
     m_textForQml = newQText;

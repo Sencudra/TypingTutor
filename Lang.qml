@@ -5,7 +5,7 @@ Item{
         target: engine
 
         onRoundStarted:{
-            klav();
+            klav(engine.currLang);
         }
     }
 
@@ -60,10 +60,10 @@ Item{
     property string l_f_shift : "SHIFT"
     property string l_f_space : "ПРОБЕЛ"
 
-    function klav(){
+    function klav(k){
 
         //id: rus
-    if(true){
+    if(k === 1){
 
         l_f_a1 = "`"
         l_f_a2 = "Q"

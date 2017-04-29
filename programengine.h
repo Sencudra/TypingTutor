@@ -58,6 +58,7 @@ class programEngine : public QObject  // engine`s class
     Q_PROPERTY(int current_speed READ getCurrentSpeed NOTIFY speedChanged) // speedChanged
     Q_PROPERTY(int currentChar READ getChar NOTIFY charChanged) //charChanged
     Q_PROPERTY(int numMistake MEMBER mistakes NOTIFY mistakeDone) // mistake done
+    Q_PROPERTY(int currLang READ getCurrentLanguage NOTIFY langChanged) //language
 
 
 public:
@@ -78,6 +79,7 @@ private:
     QString getTime(){return pointerToTime->getTime();}
     QString getText(){return pointerToText->getText();}
     int getChar(){return pointerToText->getChar();}
+    int getCurrentLanguage(){return pointerToText->getLang();}
     void createStruct();
 
 
@@ -111,6 +113,7 @@ signals:
 
 
     void modelChanged();
+    void langChanged();
 
 
 

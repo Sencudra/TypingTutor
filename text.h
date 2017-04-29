@@ -3,11 +3,19 @@
 
 #include <QObject>
 
+struct TextStruct{
+  QString text;
+  int langId;
+
+};
+
+
 struct Textqueue  // queue
 {
     QString word;
     Textqueue* next;
 };
+
 
 class Text
 {
@@ -19,6 +27,7 @@ public:
     QString getWord(){return m_wordForQml;}
     QChar* getCharPointer(){return m_wordForQml.data();}
     int getChar(){return m_charForQml;}
+    int getLang(){return m_language;}
 
     void updateChar(QChar* nextchar);
     int updateText();                   // Update text for qml file during the round
@@ -29,9 +38,14 @@ private:
     Textqueue* updateWord(Textqueue* word);
     void updateWord();
     int getINTforQml();
+    void loadBase();
 
 private:
     Textqueue* m_current_word;
+
+    std::vector<TextStruct*> textDataBase;
+
+    int m_language;
 
     int m_charForQml;
     QString m_textForQml;

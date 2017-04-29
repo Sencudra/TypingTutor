@@ -36,6 +36,7 @@ int programEngine::startRound(){
 
     // Text initialising
     pointerToText->newText();
+    emit langChanged();
     emit updateQmlText(); // For qml file
     emit charChanged();
 
