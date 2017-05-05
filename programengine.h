@@ -27,6 +27,7 @@ struct statData{
     int time;
     int speed;
     int mistakes;
+    int mode;
 
 void saveStruct(){
         ofstream fout;
@@ -39,7 +40,7 @@ void saveStruct(){
 
         QString str1 = dateTime.toString("hh:mm:ss|dd.MM.yyyy");
 
-        fout << name << " " <<  time << " " << speed << " " << mistakes << " " << str1.toStdString() << " ";
+        fout << name << " " <<  time << " " << speed << " " << mistakes << " " << str1.toStdString() << " " << mode << " ";
         fout.close();
 
         qDebug() << str1 << "Data saved!";
@@ -64,6 +65,7 @@ class programEngine : public QObject  // engine`s class
 public:
     explicit programEngine(QObject *parent = 0);
 
+    Q_INVOKABLE int prepareRound();
     Q_INVOKABLE int startRound();
     Q_INVOKABLE void stopRound();
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
@@ -88,6 +90,7 @@ private:
 
 public slots:
     void Timer(); // 1-second signal coming from Time
+    void showText();
 
 signals:
     // Time
@@ -99,8 +102,6 @@ signals:
     void updateText(); //Text
     void newText();
 
-
-
     // Round control
     void roundStarted();
     void roundEnded();
@@ -109,8 +110,8 @@ signals:
     void speedChanged();
     void charChanged();
     void clearTextInput();
+    void clearTextOutput();
     void mistakeDone();
-
 
     void modelChanged();
     void langChanged();

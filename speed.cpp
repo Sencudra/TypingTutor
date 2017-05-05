@@ -13,7 +13,6 @@ void Speed::setUp(){
     m_currentSpeed = 0;
     m_bufferedSigns = 0;
     m_allSigns = 0;
-    //emit speedChanged();
 
 }
 

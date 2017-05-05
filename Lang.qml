@@ -4,7 +4,7 @@ Item{
     Connections{
         target: engine
 
-        onRoundStarted:{
+        onLangChanged:{
             klav(engine.currLang);
         }
     }

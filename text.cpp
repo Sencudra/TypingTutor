@@ -1,7 +1,9 @@
 #include "text.h"
 #include <QDebug>
+#include <QTime>
 #include <fstream>
 #include <iostream>
+
 
 // dictiary
 QChar keyArray_rus[2][67] = {
@@ -78,16 +80,15 @@ std::wstring StringToWString(const std::string& s)
 void Text::loadBase(){
 
     std::ifstream fin;
-    fin.open("C:\\Users\\Vlad\\Desktop\\BASETYPINGTUTOR.txt");//FILENAME
+    fin.open("C:\\Users\\Vlad\\Desktop\\TextBase.txt");//FILENAME
     if(!fin)
         std::cout << "Cannot open file.\n";
 
     int langId;
 
-    int i = 0;
-    while(i < 3)
+    while(!fin.eof())
     {
-        i++;
+
         std::string txt = "";
         std::string inSign;
 
@@ -109,19 +110,20 @@ void Text::loadBase(){
             //std::wstring qtext = StringToWString(txt);
 
             new_data->text = QString::fromStdString(txt);
-            qDebug() << new_data->text;
-
             new_data->langId = langId;
 
             textDataBase.push_back(new_data);
 
             std::cout << txt << " " << langId << std::endl;
     }
+    qDebug()<< "LOADINF PASSED";
     fin.close();
 }
 
 //accessing text
 int Text::getTextFromBase(){
+    QTime game = game.currentTime();
+    srand(game.msec());
     int number = rand() % textDataBase.size();
     Textqueue* newTextQueue = generateTextQueue(textDataBase[number]->text);
     m_language = textDataBase[number]->langId;

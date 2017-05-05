@@ -9,13 +9,13 @@
 #define TABLE_H
 
 
-
 struct Data{
   QString name;
-  int time;
+  QString time;
   int speed;
   int mistakes;
   QString date;
+  QString mode;
 };
 
 
@@ -28,7 +28,8 @@ public:
         time,
         speed,
         mistakes,
-        date
+        date,
+        mode
     };
 
     Table(QObject* parent = 0);

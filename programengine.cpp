@@ -6,6 +6,8 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
     //Time
     pointerToTime = new Time();
     connect(pointerToTime,SIGNAL(changedTime()),this,SLOT(Timer()));
+    connect(pointerToTime,SIGNAL(TimeIsOut()),this,SLOT(startRound()));
+    connect(pointerToTime,SIGNAL(showText()),this,SLOT(showText()));
 
     //Text
     pointerToText = new Text();
@@ -24,25 +26,32 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
 
 }
 
-int programEngine::startRound(){
+int programEngine::prepareRound()
+{
+    // Time initialising
+    pointerToTime->pre_start_Round(15);
 
-    mistakes = 0;mistakeDone(); // for gui update
+    mistakes = 0;
+    emit mistakeDone(); // for gui update
     isRightNow = true; // for isRight()
 
+    pointerToSpeed->setUp();
+    emit speedChanged();
 
-    // Time initialising
-    pointerToTime->start_Timer();
-    emit timeChanged(); // For qml file
+    return 0;
+}
 
+void programEngine::showText()
+{
     // Text initialising
     pointerToText->newText();
     emit langChanged();
     emit updateQmlText(); // For qml file
     emit charChanged();
+}
 
-    pointerToSpeed->setUp();
-    emit speedChanged();
-
+int programEngine::startRound()
+{
     // Qml managing
     emit roundStarted(); // Qml form visual changes
 
@@ -51,10 +60,10 @@ int programEngine::startRound(){
 
 void programEngine::stopRound()
 {
-    qDebug() << "programEngine::stopRound";
     pointerToTime->stop_Timer();
 
     // For qml file
+    emit clearTextOutput();
     emit timeChanged();
     emit roundEnded();
 }
@@ -62,8 +71,6 @@ void programEngine::stopRound()
 void programEngine::Timer()
 {
     pointerToSpeed->updateSpeed();
-
-
 
     //For qml file
     emit timeChanged();
@@ -151,6 +158,7 @@ void programEngine::createStruct(){
     data.time = pointerToTime->getQTime();
     data.mistakes = mistakes;
     data.speed = pointerToSpeed->getAverageSpeed();
+    data.mode = 0;
 
     data.saveStruct();
 }

@@ -39,14 +39,14 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
         }
         TableViewColumn {
-            width: 150
+            width: 85
             title: "Average Speed"
             role: "speed"
             resizable: false
             horizontalAlignment: Text.AlignHCenter
         }
         TableViewColumn {
-            width: 90
+            width: 70
             title: "Mistakes"
             role: "mistakes"
             resizable: false
@@ -57,6 +57,13 @@ Rectangle {
             width: 150
             title: "Date"
             role: "date"
+            resizable: false
+            horizontalAlignment: Text.AlignHCenter
+        }
+        TableViewColumn {
+            width: 90
+            title: "Mode"
+            role: "mode"
             resizable: false
             horizontalAlignment: Text.AlignHCenter
         }

@@ -171,7 +171,6 @@ ApplicationWindow {
                     id: classConnection
                     target: engine
 
-
                     //Signals, which come from class
 
                     onRoundStarted: {
@@ -203,6 +202,7 @@ ApplicationWindow {
                         textInput.text = ""
 
                     }
+
                 }
 
                 Item{
@@ -236,7 +236,7 @@ ApplicationWindow {
 
                             onClicked:{
                                 buttonStop
-                                engine.startRound()
+                                engine.prepareRound()
 
                             }
                         }
