@@ -1,8 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <programengine.h>
 #include <QDebug>
+
+#include <programengine.h>
+#include <table.h>
 
 int main(int argc, char *argv[])
 {
@@ -11,14 +13,14 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
-    context->setContextProperty("color","red");
-    programEngine new_programEngine; // Пользовательский тип
-    context->setContextProperty("engine", &new_programEngine);
-    qDebug() << "OK";
 
+
+    programEngine new_programEngine; //main class
+    //For qml files understanding c++
+    context->setContextProperty("engine", &new_programEngine);
+    context->setContextProperty("table", new_programEngine.getTablePointer());
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
 
     return app.exec();
 }

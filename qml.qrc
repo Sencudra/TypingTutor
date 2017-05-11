@@ -4,11 +4,17 @@
         <file>MyKeyboard.qml</file>
         <file>MyKey.qml</file>
         <file>Lang.qml</file>
+        <file>SMLayout.qml</file>
+        <file>Stat.qml</file>
+        <file>MainWindow.qml</file>
     </qresource>
     <qresource prefix="/files">
         <file>back_keyboard.gif</file>
         <file>fore_keyboard.gif</file>
         <file>shift_keyboard.gif</file>
         <file>mask.png</file>
+        <file>C:/Users/Vlad/Desktop/TextBase.txt</file>
+        <file>STATTYPINGTUTOR.txt</file>
+        <file>TextBase.txt</file>
     </qresource>
 </RCC>

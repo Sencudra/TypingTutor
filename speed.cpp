@@ -3,11 +3,7 @@
 
 Speed::Speed(QObject *parent) : QObject(parent)
 {
-    m_rightSigns = 0;
-    m_averageSpeed = 0;
-    m_currentSpeed = 0;
-    m_bufferedSigns = 0;
-    m_allSigns = 0;
+    setUp();
     //emit speedChanged();
 }
 
@@ -17,7 +13,6 @@ void Speed::setUp(){
     m_currentSpeed = 0;
     m_bufferedSigns = 0;
     m_allSigns = 0;
-    //emit speedChanged();
 
 }
 
