@@ -76,7 +76,7 @@ void Time::update_Pre_Timer()
     }
     else
     {
-        if(QTime(0,0,5) == m_gui_time)
+        if(QTime(0,0,6) == m_gui_time)
         {
             emit showText();
         }

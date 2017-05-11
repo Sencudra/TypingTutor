@@ -1,9 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
+
 #include <programengine.h>
 #include <table.h>
-#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +13,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
+
 
     programEngine new_programEngine; //main class
     //For qml files understanding c++

@@ -7,18 +7,20 @@
 
 // dictiary
 QChar keyArray_rus[2][67] = {
-                         {L'ё',0,'1','!','2','\"','3',L'№','4',';','5','%','6',':','7','?','8','*','9','(','0',')','-','_','=','+',
-                          L'й',L'ц',L'у',L'к',L'е',   L'н',L'г',L'ш',L'щ',L'з',L'х',0,L'ъ',0,
-                          L'ф',   L'ы',L'в',L'а',L'п',L'р',L'о',L'л',L'д',L'ж',0,    L'э',0,
-                          L'я',L'ч',L'с',L'м',L'и',L'т',L'ь',L'б',   0,L'ю',0 ,'.',',',L' '},
-                         {L'`','~','1','!','2','@','3',L'#','4','$','5','%','6','^','7','&','8','*','9','(','0',')','-','_','=','+',
-                          L'q',L'w',L'e',L'r',L't',   L'y',L'u',L'i',L'o',L'p',L'[','{',L']','}',
-                          L'a',   L's',L'd',L'f',L'g',L'h',L'j',L'k',L'l',L';',':',    L'\'','\"',
-                          L'z',L'x',L'c',L'v',L'b',L'n',L'm',L',',   '<',L'.','>' ,'/','?',L' '}};
+                         {L'ё', 0, '1', '!', '2', '\"', '3', L'№', '4', ';', '5', '%', '6', ':', '7', '?', '8', '*', '9', '(', '0', ')', '-', '_', '=', '+', //26
+                          L'й', L'ц', L'у', L'к', L'е', L'н', L'г', L'ш', L'щ', L'з', L'х', 0, L'ъ', 0, //14
+                          L'ф', L'ы', L'в', L'а', L'п', L'р', L'о', L'л', L'д', L'ж', 0, L'э', 0, //13
+                          L'я', L'ч', L'с', L'м', L'и', L'т', L'ь', L'б', 0, L'ю', 0 , '.', ',', L' ' }, //14
+
+                         {L'`', '~', '1', '!', '2', '@', '3', L'#', '4', '$', '5', '%', '6', '^', '7', '&', '8', '*', '9', '(', '0', ')', '-', '_', '=', '+', //26
+                          L'q', L'w', L'e', L'r', L't', L'y', L'u', L'i', L'o', L'p', L'[', '{', L']', '}', //14
+                          L'a', L's', L'd', L'f', L'g', L'h', L'j', L'k', L'l', L';', ':', L'\'', '\"', //13
+                          L'z', L'x', L'c', L'v', L'b', L'n', L'm', L',', '<', L'.', '>', '/', '?', L' ' } //14
+};
 
 
 //prototypes
-Textqueue* generateTextQueue(QString text);
+//Textqueue* generateTextQueue(QString text);
 QString writeTextForQml(Textqueue *first);
 
 //Class stuff
@@ -33,14 +35,17 @@ void Text::updateWord()
 {
     if (m_current_word->next != NULL)
     {
+        Textqueue* del = m_current_word;
         m_current_word = m_current_word->next;
+        wordNumber--;
+        delete(del);
         m_wordForQml = m_current_word->word;
     }
     else
         m_wordForQml = "\0"; //End of the text;
 }
 
-
+/* Char input [0,66] */
 void Text::updateChar(QChar* nextchar){
     QChar newChar =( *nextchar);
     int ourNum = -1;
@@ -48,23 +53,31 @@ void Text::updateChar(QChar* nextchar){
     {
         ourNum = num;
     };
-    if (ourNum == -1 || ourNum == 66){
+    ourNum++; // цикл вылетает раньше последнего присваивания
+
+    if (ourNum >= 67){
         qDebug() << "wrong char sign";
         m_charForQml = 0;
     }
     else{
+        // Caps
         if (newChar == newChar.toUpper()){
-            switch(ourNum+1){
-                case 66:case 2:case 4:case 6:case 8:
+            switch(ourNum){
+                case 66:case 2:case 4:case 6:case 8: // Пробел,
                 case 10:case 12:case 14:case 16:
                 case 18:case 20:case 22:case 24:case 64:
-                    m_charForQml = ourNum+1;
+                    m_charForQml = ourNum;
                     return;
             }
-            m_charForQml = -(ourNum+1); // +1 cause for construction
+
+            //For dot and comma in different languages
+            if (ourNum == 65 && ourNum == 64 && m_language == 1)
+                m_charForQml = ourNum;
+            else
+                m_charForQml = -ourNum;
         }
         else
-            m_charForQml = ourNum+1;
+            m_charForQml = ourNum;
     }
 }
 
@@ -114,31 +127,50 @@ void Text::loadBase(){
 
             textDataBase.push_back(new_data);
 
-            std::cout << txt << " " << langId << std::endl;
+            //std::cout << txt << " " << langId << std::endl;
     }
-    qDebug()<< "LOADINF PASSED";
+
+
+    qDebug()<< "LOADING PASSED";
     fin.close();
+    textNumber = textDataBase.size();
 }
 
 //accessing text
-int Text::getTextFromBase(){
-    QTime game = game.currentTime();
-    srand(game.msec());
-    int number = rand() % textDataBase.size();
+int Text::getTextFromBase(int x){
+
+    int number;
+    wordNumber = 0;
+    if (x == 0){
+        QTime game = game.currentTime();
+        srand(game.msec());
+        number = rand() % textDataBase.size();
+    }else
+    {
+        number = x;
+    }
     Textqueue* newTextQueue = generateTextQueue(textDataBase[number]->text);
+
     m_language = textDataBase[number]->langId;
+    addText(); // add text up to 150 words
+
     m_current_word = newTextQueue;
+
     QString newQText = writeTextForQml(newTextQueue);
     m_textForQml = newQText;
     m_wordForQml = m_current_word->word;
     updateChar(m_wordForQml.data());
+
     return 0;
 }
+
+
 
 //return full text, except written
 int Text::updateText()
 {
     updateWord();
+    addText();
     QString text = writeTextForQml(m_current_word);
     m_textForQml = text;
     return 0;
@@ -147,13 +179,71 @@ int Text::updateText()
 
 /////////////////////////////////////////////////////////
 
-Textqueue* generateTextQueue(QString text){
+void Text::addText()
+{
+    int number;
+    if (mode == 2)
+    {
+        while(wordNumber < 150){
+            do{
+                number = rand() % textDataBase.size();
+                qDebug() << "AddText: Language Verified";
+            } while(textDataBase[number]->langId != m_language);
+
+            QString text = textDataBase[number]->text;
+            QChar* pointer = text.data();
+            QString buffer;
+
+            Textqueue* current = m_last_word;
+            m_last_word->word += " ";
+            m_last_word->next = new Textqueue;
+            current = m_last_word->next;
+
+           current->word = "\0";
+
+            while(*pointer != 0)
+            {
+                buffer = "";
+
+                while((*pointer != ' ') && (*pointer != 0))
+                {
+                    buffer += *pointer;
+                    pointer++;
+                }
+                if (*pointer != 0)
+                        buffer += *pointer;
+
+                while ((*pointer == ' ') && (*pointer != 0))
+                    pointer++;
+
+
+                if (current->word == "\0")
+                {
+                    wordNumber++;
+                    current->word = buffer;
+                }
+                else
+                {
+                    wordNumber++;
+                    Textqueue* newCell = new Textqueue;
+                    current->next = newCell;
+                    newCell->word = buffer;
+                    current = newCell;
+                }
+            }
+            m_last_word = current;
+            current->next = NULL;
+        }
+    }
+}
+
+
+Textqueue* Text::generateTextQueue(QString text){
 
     // Put text in queue
     QChar* pointer = text.data();
     QString buffer;
-
-    Textqueue* first = new Textqueue;
+    Textqueue* first = new Textqueue;;
     Textqueue* current = first;
 
     first->word = "\0";
@@ -176,19 +266,20 @@ Textqueue* generateTextQueue(QString text){
 
         if (first->word == "\0")
         {
+            wordNumber++;
             first->word = buffer;
             current = first;
         }
         else
         {
+            wordNumber++;
             Textqueue* newCell = new Textqueue;
             current->next = newCell;
             newCell->word = buffer;
             current = newCell;
-
-
         }
     }
+    m_last_word = current;
     current->next = NULL;
     return first;
 }

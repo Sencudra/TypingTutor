@@ -9,8 +9,6 @@ Item{
         }
     }
 
-
-
     property string l_f_a1 : "Ё"
     property string l_f_a2 : "Й"
     property string l_f_a3 : "Ц"
@@ -62,9 +60,8 @@ Item{
 
     function klav(k){
 
-        //id: rus
+        //id: eng
     if(k === 1){
-
         l_f_a1 = "`"
         l_f_a2 = "Q"
         l_f_a3 = "W"
@@ -113,7 +110,56 @@ Item{
         l_f_sign2 = "="
         l_f_shift = "SHIFT"
         l_f_space = "SPACE"
+        }else{
+        l_f_a1 = "Ё"
+        l_f_a2 = "Й"
+        l_f_a3 = "Ц"
+        l_f_a4 = "У"
+        l_f_a5 = "К"
+        l_f_a6 = "Е"
+        l_f_a7 = "Н"
+        l_f_a8 = "Г"
+        l_f_a9 = "Ш"
+        l_f_a10 = "Щ"
+        l_f_a11 = "З"
+        l_f_a12 = "Х"
+        l_f_a13 = "Ъ"
+        l_f_a14 = "Ф"
+        l_f_a15 = "Ы"
+        l_f_a16 = "В"
+        l_f_a17 = "А"
+        l_f_a18 = "П"
+        l_f_a19 = "Р"
+        l_f_a20 = "О"
+        l_f_a21 = "Л"
+        l_f_a22 = "Д"
+        l_f_a23 = "Ж"
+        l_f_a24 = "Э"
+        l_f_a25 = "Я"
+        l_f_a26 = "Ч"
+        l_f_a27 = "С"
+        l_f_a28 = "М"
+        l_f_a29 = "И"
+        l_f_a30 = "Т"
+        l_f_a31 = "Ь"
+        l_f_a32 = "Б"
+        l_f_a33 = "Ю"
+        l_f_dot = "."
+        l_f_num1 = "1"
+        l_f_num2 = "2"
+        l_f_num3 = "3"
+        l_f_num4 = "4"
+        l_f_num5 = "5"
+        l_f_num6 = "6"
+        l_f_num7 = "7"
+        l_f_num8 = "8"
+        l_f_num9 = "9"
+        l_f_num0 = "0"
+        l_f_sign1 = "-"
+        l_f_sign2 = "="
+        l_f_shift = "SHIFT"
+        l_f_space = "ПРОБЕЛ"
 
-        }
+    }
     }
 }

@@ -23,13 +23,18 @@ programEngine::programEngine(QObject *parent) : QObject(parent){
     emit mistakeDone(); // for gui update
 
     //createStat();
-
 }
 
 int programEngine::prepareRound()
 {
     // Time initialising
     pointerToTime->pre_start_Round(15);
+
+    activeRound();
+
+    qDebug() << "ROUND INFO" << mode << textValue << nickname;
+
+    pointerToText->setMode(mode);
 
     mistakes = 0;
     emit mistakeDone(); // for gui update
@@ -44,15 +49,16 @@ int programEngine::prepareRound()
 void programEngine::showText()
 {
     // Text initialising
-    pointerToText->newText();
-    emit langChanged();
+    pointerToText->newText(textValue);
+
     emit updateQmlText(); // For qml file
+    emit langChanged();
     emit charChanged();
+    emit showQmlText();
 }
 
 int programEngine::startRound()
 {
-    // Qml managing
     emit roundStarted(); // Qml form visual changes
 
     return 0;
@@ -62,10 +68,12 @@ void programEngine::stopRound()
 {
     pointerToTime->stop_Timer();
 
+
     // For qml file
+    emit roundEnded();
     emit clearTextOutput();
     emit timeChanged();
-    emit roundEnded();
+
 }
 
 void programEngine::Timer()
@@ -132,7 +140,12 @@ bool programEngine::isRight(QString text)
         if (cursor != textLength){
 
             if(isRightNow){
-                mistakes++; mistakeDone(); // for gui update
+                mistakes++;
+                emit mistakeDone(); // for gui update
+                if (mode == 1){
+                    stopRound();
+
+                }
             }
             isRightNow = false;
             return false;
@@ -154,11 +167,11 @@ bool programEngine::isRight(QString text)
 void programEngine::createStruct(){
 
     statData data;
-    data.name = "Vlad";
+    data.name = nickname.toStdString();
     data.time = pointerToTime->getQTime();
     data.mistakes = mistakes;
     data.speed = pointerToSpeed->getAverageSpeed();
-    data.mode = 0;
+    data.mode = mode;
 
     data.saveStruct();
 }

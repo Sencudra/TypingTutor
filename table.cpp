@@ -10,9 +10,9 @@ int partition(std::vector<Data*>& A, int p,int q)
     int i=p;
     int j;
 
-    for(j=p+1; j<q; j++)
+    for(j = p+1; j<q; j++)
     {
-        if(A[j]->speed <=x)
+        if(A[j]->speed <= x)
         {
             i=i+1;
             Data temp = *A[i];
@@ -24,6 +24,7 @@ int partition(std::vector<Data*>& A, int p,int q)
     Data temp = *A[i];
     *A[i] = *A[p];
     *A[p] = temp;
+
     return i;
 }
 
@@ -42,8 +43,10 @@ void quickSort(std::vector<Data*>& A, int p,int q)
 QString returnMode(int x)
 {
     switch(x){
-        case 0: return "Default";
-        case 1: return "No Mistakes";
+        case 0:     return "Обычный";
+        case 1:     return "Хардкор";
+        case 2:     return "Бесконечный";
+        default:    return "Без Режима";
     }
 }
 
@@ -89,6 +92,7 @@ bool Table::updateTable()
     fin.close();
     for(Data* x : dataBase)
         m_data.append("beatch");
+
     if(dataBase.size() > 0)
         quickSort(dataBase,0,dataBase.size());
 

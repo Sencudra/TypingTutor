@@ -9,10 +9,9 @@
 
 #include <fstream> //File saving
 #include <iostream>
-#include <time.h>
 #include <vector>
 
-
+#include "time.h"
 #include "time.h"
 #include "text.h"
 #include "speed.h"
@@ -70,6 +69,15 @@ public:
     Q_INVOKABLE void stopRound();
     Q_INVOKABLE bool isRight(QString text); // Input text verifying
 
+    Q_INVOKABLE void changeMode(int x){ mode = x;}
+    Q_INVOKABLE void changeName(QString x){ nickname = x;}
+    Q_INVOKABLE void changeText(int x){ textValue = x;}
+
+    Q_INVOKABLE int getTextNumber(){qDebug() << pointerToText->getTextNumber();return pointerToText->getTextNumber();}
+
+
+    void setTextNumber(int x){textNum = x;}
+
     Table* getTablePointer(){return pointerToTable;}
 
 private:
@@ -80,13 +88,12 @@ private:
     //new
     QString getTime(){return pointerToTime->getTime();}
     QString getText(){return pointerToText->getText();}
+
     int getChar(){return pointerToText->getChar();}
     int getCurrentLanguage(){return pointerToText->getLang();}
+
+
     void createStruct();
-
-
-
-
 
 public slots:
     void Timer(); // 1-second signal coming from Time
@@ -98,6 +105,7 @@ signals:
 
     // Connected with TEXT
     void updateQmlText(); //Qml
+    void showQmlText();
 
     void updateText(); //Text
     void newText();
@@ -116,8 +124,7 @@ signals:
     void modelChanged();
     void langChanged();
 
-
-
+    void activeRound();
 
 private:
     // m - member
@@ -128,6 +135,12 @@ private:
 
     int mistakes;
     bool isRightNow;
+
+
+    int mode;
+    QString nickname;
+    int textValue;
+    int textNum;
 
 };
 
