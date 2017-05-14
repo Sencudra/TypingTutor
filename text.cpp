@@ -147,7 +147,7 @@ int Text::getTextFromBase(int x){
         number = rand() % textDataBase.size();
     }else
     {
-        number = x;
+        number = x-1;
     }
     Textqueue* newTextQueue = generateTextQueue(textDataBase[number]->text);
 
